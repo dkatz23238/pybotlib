@@ -1,10 +1,10 @@
 # pybotlib: A Python RPA Library 🤖
 
-![alt text](https://github.com/dkatz23238/pybotlib/blob/master/img/pybotlib.png)
+![alt text](https://github.com/dkatz23238/pybotlib/blob/master/img/logo.png)
 
 # What is pybotlib?
-pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7. It currently supports both Mac OS and Windows.
-
+pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15. 
+It is recomended to run on a Windows client but will also function on Mac OS.
 
 Aimed at outperforming and outcosting closed sourced solutions such as Automation Anywhere or Blueprism, pybotlib consists of a central wrapper around the selenium webdriver exposing highly customized methods and functions through an efficient and easy to use API.
 
