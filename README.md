@@ -1,4 +1,4 @@
-# pybotlib: Open RPA Library🤖
+# pybotlib: A Python RPA Library🤖
 
 ![alt text](https://github.com/dkatz23238/pybotlib/blob/master/img/pybotlib.png)
 
