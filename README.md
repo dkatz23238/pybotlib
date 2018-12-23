@@ -2,9 +2,6 @@
 
 ![alt text](https://github.com/dkatz23238/pybotlib/blob/master/img/pybotlib.png)
 
-### Important Notice:
-
-pybotlib will soon be transitioning to a new repository under the name pybotlib
 # What is pybotlib?
 pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7. It currently supports both Mac OS and Windows.
 
