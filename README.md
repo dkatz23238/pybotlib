@@ -1,4 +1,4 @@
-# pybotlib: A Python RPA Library 🤖
+# pybotlib: Open Source Robotics Process Automation 🤖
 
 ![alt text](https://github.com/dkatz23238/pybotlib/blob/master/img/pybotlib.png)
 
