@@ -1,7 +1,7 @@
 # pybotlib: A Python RPA Library🤖
 
 
-![pybotlib-image](/img/pybotlib.png)
+![pybotlib-image](/https://github.com/dkatz23238/pybotlib/blob/master/img/pybotlib.png)
 
 # What is pybotlib?
 pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15. 
