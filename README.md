@@ -70,6 +70,9 @@ my_robot = my_RPA(bot_name="my_robot", downloads_directory="my_robot_downloads_f
 my_robot.find_by_tag_and_attr(tag, attribute, evaluation_string, sleep_secs)
 ```
 
+
+## Logging and RPA Auditability
+
 When developing RPAs you usually want to be able to log two different types of events: execution logs and transactional logs. Transactional logs give information about the process you are automating while the execution log provides information on the specific run of an RPA. 
 
 Pybotlib creates a folder called pybotlib_logs under the current Users directory. Every RPA has the ability to create and automatically write to its logfile. The log file is CSV file, an example for illustrative purposes is provided below:
