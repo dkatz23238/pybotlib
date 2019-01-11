@@ -82,13 +82,13 @@ Pybotlib creates a folder called pybotlib_logs under the current Users directory
 | 1   | searching edgar for AAPL | transaction | 2019-01-11 11:44:06.216000 | Pacific Standard Time |
 | 2   | ...                      | ...         | ...                        | ...                   |
 
-Calling ```my_RPA.create_log_file()``` will create the csv used to audit the execution of an RPA.
+```my_RPA.create_log_file()``` will create the csv used to audit the execution of an RPA.
 
-Calling ```my_RPA.log(message)``` will directly log a transaction tagged message to the current file.
+```my_RPA.log(message)``` will directly log a transaction tagged message to the current file.
 
-Calling ```my_RPA.log(message, tag=TAG)``` allows users to customize tags
+```my_RPA.log(message, tag=TAG)``` allows users to customize tags
 
-Calling ```my_RPA.log_completion()``` will log a message "end" to the log file tagged as execution.
+```my_RPA.log_completion()``` will log a message "end" to the log file tagged as execution.
 
 
 ## Documenation
