@@ -7,7 +7,10 @@ import glob
 import platform
 import datetime
 import uuid
+import csv
 from exceptions import NoElementsSatisfyConditions
+from time import gmtime, strftime
+
 
 didnotinit = "Use .initialize_driver() to instantiate a webdriver session. "
 log_file_message = "Create and initialize logfile using .create_log_file(bot_name) before logging"
@@ -57,7 +60,7 @@ class my_RPA(object):
     def __init__(self,bot_name,downloads_directory,df=None, chromeProfile=None):
 
         self.bot_name = bot_name
-
+        self.logfile_row_counter = 0
         if df is None:
             pass
         else:
@@ -138,20 +141,80 @@ class my_RPA(object):
             bot_name = "%s - %s - %s" %(bot_name, str(uid), str(datetime.datetime.now().strftime("%b %Y")))
             print(bot_name)
         
-        logfile = os.path.join(self.log_path, bot_name+".txt")
-
-        file = open(logfile, mode="w")
-        file.write("log file created at %s by user %s.\n"%(str(datetime.datetime.now()), usr))
-        file.write("--- --- --- --- --- --- ---\n")
+        logfile = os.path.join(self.log_path, bot_name+".csv")
         self.logfile_path = logfile
 
-    def log(self, message):
+        with open(logfile, mode='w') as csv_file:
+            fieldnames = [
+                "idx",
+                "message",
+                "tag",
+                "timestamp",
+                "tz"
+            ]
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+
+            row = {
+                "idx":self.logfile_row_counter,
+                "message":"start",
+                "tag":"execution",
+                "timestamp":str(datetime.datetime.now()),
+                "tz":strftime("%z", gmtime()),
+            }
+            writer.writerow(row)
+            self.logfile_row_counter += 1
+
+    def log(self, message, tag="transaction"):
         """ Logs a message to the currently active log file """
         if self.logfile_path is None:
             print(log_file_message)
         else:
-            with open(self.logfile_path, 'a') as outfile:
-                outfile.write("%s - %s\n"%(message, str(datetime.datetime.now())))
+
+           with open(self.logfile_path, mode='a') as csv_file:
+            fieldnames = [
+                "idx",
+                "message",
+                "tag",
+                "timestamp",
+                "tz"
+            ]
+
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            row = {
+                "idx":self.logfile_row_counter,
+                "message":message,
+                "tag":tag,
+                "timestamp":str(datetime.datetime.now()),
+                "tz":strftime("%z", gmtime()),
+            }
+            writer.writerow(row)
+            self.logfile_row_counter += 1
+    
+    def log_completion(self):
+        """ Logs that the RPA has sucesfully completed. To be used at the very end of the RPA"""
+        if self.logfile_path is None:
+            print(log_file_message)
+        else:
+
+           with open(self.logfile_path, mode='a') as csv_file:
+            fieldnames = [
+                "idx",
+                "message",
+                "tag",
+                "timestamp",
+                "tz"
+            ]
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            row = {
+                "idx":self.logfile_row_counter,
+                "message":"end",
+                "tag":"execution",
+                "timestamp":str(datetime.datetime.now()),
+                "tz":strftime("%z", gmtime()),
+            }
+            writer.writerow(row)
+            self.logfile_row_counter += 1
 
     def set_DataFrame(self, df):
         """ Setter for a pandas DataFrame """
@@ -200,3 +263,5 @@ class my_RPA(object):
                     return elements[0]
             else:
                 raise NoElementsSatisfyConditions("No elements found satisfying conditions!")
+    def quit_driver(self):
+        self.driver.quit()

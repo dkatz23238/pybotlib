@@ -15,6 +15,7 @@ def getFinancialReports(my_bot, tickers, report):
     """ Downloads an invidiual report from SEC website and saves it to downloads directory """
 
     for ticker in tickers:
+        my_bot.log("searching edgar for %s" % ticker)
         url = "https://www.sec.gov/edgar/searchedgar/companysearch.html"
        
         my_bot.get(url)
@@ -78,6 +79,7 @@ def getNewsData(my_bot, names):
     """ Downloads recent news data relating to company name by relevance in the last 24 hours. """
 
     for index, name in enumerate(names):
+        my_bot.log("serching newslookup for %s" % name)
         url = "http://newslookup.com/"
         stockData = []
         my_bot.get(url)
@@ -139,9 +141,8 @@ my_bot.initialize_driver()
 # Collects data from SEC edgar website
 getFinancialReports(my_bot, tickers, report="10-Q")
 # Quits out of driver to finalize stage
-my_bot.driver.quit()
+my_bot.quit_driver()
 time.sleep(5)
-
 # Reads out company names from excel into a list
 names = read_excel("RPA_input.xlsx")["Company Name"].tolist()
 # Second Stage: Extract relevant news article data from newslookup.com
@@ -149,5 +150,6 @@ my_bot.initialize_driver()
 # Gets relevant news articles from past 36 hours
 getNewsData(my_bot, names)
 # Quit out of driver to finalize second stage
-my_bot.driver.quit()
+my_bot.quit_driver()
+my_bot.log_completion()
 print("Robot Complete!")

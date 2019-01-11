@@ -1,4 +1,4 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.pythonPath": "C:\\Program Files (x86)\\Anaconda2\\python.exe"
+    "python.pythonPath": "C:\\ProgramData\\Miniconda2\\envs\\robots2\\python.exe"
 }

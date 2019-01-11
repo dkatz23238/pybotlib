@@ -69,6 +69,26 @@ This is why we have created the find_by_tag_and_attr method that iterates throug
 my_robot = my_RPA(bot_name="my_robot", downloads_directory="my_robot_downloads_folder")
 my_robot.find_by_tag_and_attr(tag, attribute, evaluation_string, sleep_secs)
 ```
+
+When developing RPAs you usually want to be able to log two different types of events: execution logs and transactional logs. Transactional logs give information about the process you are automating while the execution log provides information on the specific run of an RPA. 
+
+Pybotlib creates a folder called pybotlib_logs under the current Users directory. Every RPA has the ability to create and automatically write to its logfile. The log file is CSV file, an example for illustrative purposes is provided below:
+
+| idx | message                  | tag         | timestamp                  | tz                    |
+|-----|--------------------------|-------------|----------------------------|-----------------------|
+| 0   | start                    | execution   | 2019-01-11 11:44:01.399000 | Pacific Standard Time |
+| 1   | searching edgar for AAPL | transaction | 2019-01-11 11:44:06.216000 | Pacific Standard Time |
+| 2   | ...                      | ...         | ...                        | ...                   |
+
+Calling my_RPA.create_log_file() will create the csv used to audit the execution of an RPA.
+
+Calling my_RPA.log(message) will directly log a transaction tagged message to the current file.
+
+Calling my_RPA.log(message, tag=TAG) allows users to customize tags
+
+Calling my_RPA.log_completion() will log a message "end" to the log file tagged as execution.
+
+
 ## Documenation
 
 Docs coming soon. Stay tuned or sign up for our mailing list *here*
