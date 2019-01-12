@@ -90,7 +90,6 @@ Calling ```my_RPA.log(message, tag=TAG)``` allows users to customize tags
 
 Calling ```my_RPA.log_completion()``` will log a message "end" to the log file tagged as execution.
 
-
 ## Documenation
 
 Docs coming soon. Stay tuned or sign up for our mailing list *here*
