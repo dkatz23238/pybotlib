@@ -129,7 +129,7 @@ def SaveEmailsToCWD(list_of_mails):
         body = mail.body
         mail_date = dt_parse(mail.Date).strftime("%m-%d-%Y %H.%M.%S")
 
-        folder_name = "pybotlib_emails\\%s" % (mail.headers["Subject"]+" "+mail_date)
+        folder_name = "pybotlib_emails\\%s" % (mail.headers["Message-ID"].split("-")[1] +" "+mail_date)
 
         if not os.path.exists(folder_name):
             os.mkdir(folder_name)
