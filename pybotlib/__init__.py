@@ -41,7 +41,22 @@ class my_RPA(object):
     assistant that will cary out a series of event-based
     or stricly scheduled taks.
 
-    Use:
+    Parameters
+    ----------
+    bot_name: str
+        Name of the RPA. Used for logging and identification purposes.
+    
+    downloads_directory: str
+        Name of the subfolder to which all file downloads from the internet will be downloaded to.
+
+    df: Pandas.DataFrame, optional
+        Used to embed a table in the object if needed.
+    
+    chromeProfile: str, optional
+        Specific name of the ChromeProfile subfolder to use when using the google chrome driver. Usefull to retain cookies and other web based data.
+        Profiles can be found under: C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default
+
+    Example:
 
     human_resources_bot = my_RPA(bot_name="HR_bot", downloads_directory="timesheets")
     human_resources_bot.create_log_file()
@@ -107,8 +122,8 @@ class my_RPA(object):
 
     def create_log_file(self):
         """
-        Creates a log file in pybotlib_logs folder.
-        You can log text string to file with my_bot.log(msg).
+        Creates a log csv under C:\Users\%USERNAME%\pybotlib_logs.
+        You can log transactional or execution logs once the file has been created.
         """
         bot_name= self.bot_name
 
@@ -166,7 +181,17 @@ class my_RPA(object):
             self.logfile_row_counter += 1
 
     def log(self, message, tag="transaction"):
-        """ Logs a message to the currently active log file """
+        """
+        Logs a message to the currently active log file
+        
+        Parameters
+        ----------
+        message : str
+            Message to be logged.
+        tag: str
+            Tag assoacited to message. Defaults to "transactional"
+        
+        """
         if self.logfile_path is None:
             print(log_file_message)
         else:
@@ -241,7 +266,32 @@ class my_RPA(object):
     def find_by_tag_and_attr(self, tag, attribute, evaluation_string, sleep_secs, return_many=True):
         """
         Usefull function to scan a web site for elements that satisfy specific conditions.
+        This function is accelerated with javascript.
 
+        Parameters
+        ----------
+        tag : str
+            HTML tag to begin search for. If the element we seek is an <input> we would pass the argument "input".
+        
+        attribute: str
+            Which attribute of the HTML element do we evaluate in order to interact with a webpage.
+            To name a few: "class", "id", or "placeholder", are all possible examples.
+
+        evaluation_string: str
+            What text should we evaluate when searching the elements on the page. If our attribute is "id" and 
+            evaluation string is "001" we will reduce our search the the elements that id == "001".
+        
+        sleep_secs: float
+            How many seconds to sleep before executing search
+
+        return_many: bool, optional
+            Should the method return a list or an invidiual element
+
+        Returns
+        ----------
+        list or selenium.webdriver.remote.webelement
+            Either returns a list of webelement objects or an individual webelement object depending on the return_many argument.
+        
         Example:
         my_bot.find_by_tag_and_attr(
             tag="a",
@@ -264,4 +314,5 @@ class my_RPA(object):
             else:
                 raise NoElementsSatisfyConditions("No elements found satisfying conditions!")
     def quit_driver(self):
+        """ Quits out of the web driver."""
         self.driver.quit()
