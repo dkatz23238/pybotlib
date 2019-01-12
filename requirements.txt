@@ -8,3 +8,4 @@ lxml
 xlrd
 openpyxl
 mail-parser
+pyautogui
