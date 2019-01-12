@@ -411,6 +411,3 @@ def SendHTMLEmailWithAttachment(subject, body, sender_email, receiver_email, pas
     else:
         print("Login Failed!")
         return
-
-
-SendHTMLEmailWithAttachment(subject="HOLA", body="HOLA WACHO", sender_email="rpaexamplemail@gmail.com", receiver_email="davidemmanuelkatz@gmail.com", password="password12345.", filename="C:\Users\david\Desktop\message.txt",watermark="ACME INC")
