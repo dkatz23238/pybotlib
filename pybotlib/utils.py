@@ -23,6 +23,12 @@ import datetime
 from datetime import datetime,timedelta
 
 def CheckCDriver():
+
+    """
+    Checks Windows 10 system for Chrome Driver for use in RPA Automation.
+    If not found will download the most recent version form google servers.
+    """
+
     if platform.system() == "Windows":
 
         try:
@@ -45,7 +51,10 @@ def CheckCDriver():
         return Exception("Only Supported For Windows")
 
 def dt_parse(t):
-   return (
+    """
+    Parses out datetime from email msg format
+    """
+    return (
        datetime.fromtimestamp(
            time.mktime(
                email.utils.parsedate(t)
@@ -58,6 +67,28 @@ def ReturnEmailsFromImap(email_account, password, email_folder, search_term="ALL
     """
     Used to search a specific IMAP email folder and return a list of individual mailparser.MailParser objects.
     Will return no values if the login, folder, or search fails. You can replace search_term with other fields such as "UnSeen" or "Seen".
+
+    Parameters
+    ----------
+    email_account : str
+        Email address to read inbox from.
+
+    password: str
+        Password for associated email_account.
+
+    email_folder: str
+        Which IMAP folder to return emails from.
+    
+    search_term: str, optional
+        Term that is used to search in email folder. Defaults to all.
+    
+    url: str, optinal
+        IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.
+
+    Returns
+    -------
+    list
+        a list of mailparser.MailParser objects
 
     Example:
 
@@ -108,6 +139,16 @@ def SaveEmailsToCWD(list_of_mails):
     Headers and body are saved as individual txt files inside a folder named after the subject and date recieved.
     Attachements are also saved into said folder.
 
+    Parameters
+    ----------
+    list_of_mails: list
+        Takes a list of mailparser.MailParser objects.
+    
+    Returns
+    -------
+    This function will save email as individual folders containing headers.json, body.txt, and any attachments under the CWD/pybotlib_emails.
+
+
     Example:
 
     list_of_mails = [msg1, msg2, msg3]
@@ -115,7 +156,8 @@ def SaveEmailsToCWD(list_of_mails):
     SaveEmailsToCWD(list_of_mails)
 
     """
-    
+
+
     if not os.path.exists("pybotlib_emails"):
         os.mkdir("pybotlib_emails")
 
@@ -147,12 +189,33 @@ def SaveEmailsToCWD(list_of_mails):
             with open(folder_name + "\%s" % a["filename"], "w" ) as f:
                 f.write(a["payload"].decode(a["content_transfer_encoding"]))
                 f.close()
+        return
 
 def SendEmailWithAttachment(subject, body, sender_email, receiver_email, password, filename):
 
     """
     Sends a simple with one attachment from a gmail account.
 
+    Parameters
+    ----------
+    subject: str
+        Subject of the email.
+
+    body: str
+        Body of the email.
+
+    sender_email: str
+        From field in the email.
+
+    reciever_email: str
+        The recipient emaill address.
+
+    password: str
+        Password of senders email.
+
+    filename: str
+        Absoloute path of file to send in email or the file name if the file is in CWD.
+    
     Example:
     SendEmailWithAttachment(
         subject="Hello",
@@ -211,8 +274,28 @@ def SendHTMLEmailWithAttachment(subject, body, sender_email, receiver_email, pas
 
     """
     Sends HTML formatted email.
-    filename can be the filename if the file is in CWD, if not you can use absoloute path.
+    filename can be the filename if the file is in CWD, if not you can use absoloute path.}
+    
+    Parameters
+    ----------
+    subject: str
+        Subject of the email.
 
+    body: str
+        Body of the email.
+
+    sender_email: str
+        From field in the email.
+
+    reciever_email: str
+        The recipient emaill address.
+
+    password: str
+        Password of senders email.
+        
+    filename: str
+        Absoloute path of file to send in email or the file name if the file is in CWD.
+    
     Example:
     SendEmailWithAttachment(
         subject="Hello",
