@@ -125,7 +125,7 @@ def SaveEmailsToCWD(list_of_mails):
             print "save_emails_to_cwd ony takes in a list of mailparser.MailParser objects"
             return
         
-        header = mail.headers
+        header = mail.headers_json
         body = mail.body
         mail_date = dt_parse(mail.Date).strftime("%m-%d-%Y %H.%M.%S")
 
@@ -134,7 +134,7 @@ def SaveEmailsToCWD(list_of_mails):
         if not os.path.exists(folder_name):
             os.mkdir(folder_name)
 
-        f = open(folder_name +"\\header.txt", "w")
+        f = open(folder_name +"\\header.json", "w")
         f.write(str(header))
         f.close()
 
