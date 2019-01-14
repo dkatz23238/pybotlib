@@ -11,12 +11,26 @@ import csv
 from exceptions import NoElementsSatisfyConditions
 from time import gmtime, strftime
 
+DIDNOTINIT = "Use .initialize_driver() to instantiate a webdriver session. "
+LOG_FILE_MESSAGE = "Create and initialize logfile using .create_log_file(bot_name) before logging"
 
-didnotinit = "Use .initialize_driver() to instantiate a webdriver session. "
-log_file_message = "Create and initialize logfile using .create_log_file(bot_name) before logging"
+def generate_js(tag, atr, evalString):
+    """ 
+    Generates js string for web element searching.
 
-def generateJS(tag, atr, evalString):
-    """ Generates js string for web element searching. """
+    Parameters
+    ----------
+    tag: str
+        HTML tag to search for.
+
+    atr: str
+        HTML attribute for which to evaluate when searching the DOM.
+
+    evalString: str
+        Used to determine if attribute of HTML is element is equal to this string.
+
+    
+    """
     js = """
     function find_by_tag_and_attr(tag, atr, evalString) {
         const elements = document.getElementsByTagName(tag);
@@ -33,7 +47,7 @@ def generateJS(tag, atr, evalString):
     """ % (tag, atr, evalString)
     return js
 
-class my_RPA(object):
+class VirtualAgent(object):
     """
     Creates an instance of RPA object: 
 
@@ -58,7 +72,7 @@ class my_RPA(object):
 
     Example:
 
-    human_resources_bot = my_RPA(bot_name="HR_bot", downloads_directory="timesheets")
+    human_resources_bot = VirtualAgent(bot_name="HR_bot", downloads_directory="timesheets")
     human_resources_bot.create_log_file()
     human_resources_bot.initialize_driver()
     human_resources_bot.log("WebDriver Initiated")
@@ -193,7 +207,7 @@ class my_RPA(object):
         
         """
         if self.logfile_path is None:
-            print(log_file_message)
+            print(LOG_FILE_MESSAGE)
         else:
 
            with open(self.logfile_path, mode='a') as csv_file:
@@ -216,10 +230,10 @@ class my_RPA(object):
             writer.writerow(row)
             self.logfile_row_counter += 1
     
-    def log_completion(self):
+    def log_bot_completion(self):
         """ Logs that the RPA has sucesfully completed. To be used at the very end of the RPA"""
         if self.logfile_path is None:
-            print(log_file_message)
+            print(LOG_FILE_MESSAGE)
         else:
 
            with open(self.logfile_path, mode='a') as csv_file:
@@ -252,14 +266,14 @@ class my_RPA(object):
     def get(self, url):
         """ Directs the Chrome driver to a URL""" 
         if self.driver is None:
-            print(didnotinit)
+            print(DIDNOTINIT)
         else:
             self.driver.get(url)
 
     def use_javascript(self, script):
         """ Executes javascript code into the current running webpage. """
         if self.driver is None:
-            print(didnotinit)
+            print(DIDNOTINIT)
         else:
             return self.driver.execute_script(script)
 
@@ -301,10 +315,10 @@ class my_RPA(object):
         
         """
         if self.driver is None:
-            print(didnotinit)
+            print(DIDNOTINIT)
         else:
             sleep(sleep_secs)
-            js = generateJS(tag=tag, atr=attribute, evalString=evaluation_string)
+            js = generate_js(tag=tag, atr=attribute, evalString=evaluation_string)
             elements = self.driver.execute_script(js)
             if len(elements) > 0:
                 if return_many:

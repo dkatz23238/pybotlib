@@ -22,7 +22,7 @@ import os
 import datetime
 from datetime import datetime,timedelta
 
-def CheckCDriver():
+def check_and_dl_chrome_driver():
 
     """
     Checks Windows 10 system for Chrome Driver for use in RPA Automation.
@@ -62,7 +62,7 @@ def dt_parse(t):
        )
    )
 
-def ReturnEmailsFromImap(email_account, password, email_folder, search_term="ALL", url='imap.gmail.com'):
+def return_emails_from_IMAP(email_account, password, email_folder, search_term="ALL", url='imap.gmail.com'):
 
     """
     Used to search a specific IMAP email folder and return a list of individual mailparser.MailParser objects.
@@ -92,7 +92,7 @@ def ReturnEmailsFromImap(email_account, password, email_folder, search_term="ALL
 
     Example:
 
-    list_of_emails = ReturnEmailsFromImap(
+    list_of_emails = return_emails_from_IMAP(
         email_account="me@me.com",
         password="psw",
         email_folder="INBOX",
@@ -133,7 +133,7 @@ def ReturnEmailsFromImap(email_account, password, email_folder, search_term="ALL
     M.logout()
     return response
 
-def SaveEmailsToCWD(list_of_mails):
+def save_emails_to_CWD(list_of_mails):
     """
     Takes as input a list of mailparser.MailParser objects and saves the emails to current working directory under a folder called pybotlib_emails.
     Headers and body are saved as individual txt files inside a folder named after the subject and date recieved.
@@ -153,7 +153,7 @@ def SaveEmailsToCWD(list_of_mails):
 
     list_of_mails = [msg1, msg2, msg3]
 
-    SaveEmailsToCWD(list_of_mails)
+    save_emails_to_CWD(list_of_mails)
 
     """
 
@@ -191,7 +191,7 @@ def SaveEmailsToCWD(list_of_mails):
                 f.close()
         return
 
-def SendEmailWithAttachment(subject, body, sender_email, receiver_email, password, filename):
+def send_email_with_attachement(subject, body, sender_email, receiver_email, password, filename):
 
     """
     Sends a simple with one attachment from a gmail account.
@@ -217,7 +217,7 @@ def SendEmailWithAttachment(subject, body, sender_email, receiver_email, passwor
         Absoloute path of file to send in email or the file name if the file is in CWD.
     
     Example:
-    SendEmailWithAttachment(
+    send_email_with_attachement(
         subject="Hello",
         body="Hi, hello.",
         sender_email="me@gmail.com",
@@ -270,7 +270,7 @@ def SendEmailWithAttachment(subject, body, sender_email, receiver_email, passwor
         print("Login Failed!")
         return
 
-def SendHTMLEmailWithAttachment(subject, body, sender_email, receiver_email, password, filename, watermark="pybotlib RPA"):   
+def send_HTML_email_with_attachement(subject, body, sender_email, receiver_email, password, filename, watermark="pybotlib RPA"):   
 
     """
     Sends HTML formatted email.
@@ -297,7 +297,7 @@ def SendHTMLEmailWithAttachment(subject, body, sender_email, receiver_email, pas
         Absoloute path of file to send in email or the file name if the file is in CWD.
     
     Example:
-    SendEmailWithAttachment(
+    send_email_with_attachement(
         subject="Hello",
         body="Hi, hello.",
         sender_email="me@gmail.com",

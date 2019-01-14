@@ -3,12 +3,13 @@ import glob
 import datetime
 import time
 from shutil import move as moveFile
-from pybotlib import my_RPA
-from pandas import DataFrame, read_excel
-from pybotlib.utils import CheckCDriver
+from pybotlib import VirtualAgent
+from pandas import DataFrame, read_excel, read_csv
+from pybotlib.utils import check_and_dl_chrome_driver
 from os.path import join 
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import ElementNotVisibleException
+import traceback
 
 def getFinancialReports(my_bot, tickers, report):
 
@@ -74,7 +75,7 @@ def getFinancialReports(my_bot, tickers, report):
         moveFile(downloadedReport, destination)
         time.sleep(5)
     
-def getNewsData(my_bot, names):
+def getNewsData(my_bot, tickers, names):
 
     """ Downloads recent news data relating to company name by relevance in the last 24 hours. """
 
@@ -123,33 +124,48 @@ def getNewsData(my_bot, names):
             stockData.append(DataFrame(current_page).drop_duplicates("article_title"))
 
         else:
+            print("Raising Exception")
+            raise Exception("Srcap not successful !")
 
-            raise Exception("error please check code")
-
-        destination = my_bot.downloads_dir + "\\%s"%tickers[index] + "\\NewsData_%s.xlsx" % datetime.datetime.now().strftime("%Y_%m_%d")
+        destination = my_bot.downloads_dir + "\\%s" %tickers[index] + "\\NewsData_%s.xlsx" % datetime.datetime.now().strftime("%Y_%m_%d")
         data = stockData.pop()
         data.to_excel(destination)
 
-# First Stage: Download financial transcripts from EDGAR database
-my_bot = my_RPA(bot_name="EDGAR_investigator_bot", downloads_directory = "EDGAR_bot" )
-# Creates log file to log an auditable trail and collect errors
-my_bot.create_log_file()
-# Reads tickers from excel into a list
-tickers = read_excel("RPA_input.xlsx")["Company Ticker"].tolist()
-# Initializes the Chrome webdriver
-my_bot.initialize_driver()
-# Collects data from SEC edgar website
-getFinancialReports(my_bot, tickers, report="10-Q")
-# Quits out of driver to finalize stage
-my_bot.quit_driver()
-time.sleep(5)
-# Reads out company names from excel into a list
-names = read_excel("RPA_input.xlsx")["Company Name"].tolist()
-# Second Stage: Extract relevant news article data from newslookup.com
-my_bot.initialize_driver()
-# Gets relevant news articles from past 36 hours
-getNewsData(my_bot, names)
-# Quit out of driver to finalize second stage
-my_bot.quit_driver()
-my_bot.log_completion()
-print("Robot Complete!")
+def run_robot():
+
+    try:
+        # First Stage: Download financial transcripts from EDGAR database
+        my_bot = VirtualAgent(bot_name="EDGAR_investigator_bot", downloads_directory = "EDGAR_bot" )
+        # Creates log file to log an auditable trail and collect errors
+        my_bot.create_log_file()
+        # Reads tickers from excel into a list
+        tickers = read_excel("RPA_input.xlsx")["Company Ticker"].tolist()
+        # Initializes the Chrome webdriver
+        my_bot.initialize_driver()
+        # Collects data from SEC edgar website
+        getFinancialReports(my_bot, tickers, report="10-Q")
+        # Quits out of driver to finalize stage
+        my_bot.quit_driver()
+        time.sleep(5)
+        # Reads out company names from excel into a list
+        names = read_excel("RPA_input.xlsx")["Company Name"].tolist()
+        # Second Stage: Extract relevant news article data from newslookup.com
+        my_bot.initialize_driver()
+        # Gets relevant news articles from past 36 hours
+        getNewsData(my_bot, tickers, names)
+        # Quit out of driver to finalize second stage
+        my_bot.quit_driver()
+        my_bot.log_bot_completion()
+        print("Robot Complete!")
+        print(read_csv(my_bot.logfile_path, encoding="utf-8").set_index("idx"))
+    except Exception as e:
+        # Logs exceptions
+        my_bot.log(message="ERROR: %s" %str(e), tag="execution")
+        # One error print out the exception
+        print(e)
+        # Print out stack trace
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    # Allows main function only to be executed when explicitly called
+    run_robot()
