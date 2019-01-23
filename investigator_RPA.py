@@ -6,7 +6,7 @@ from shutil import move as moveFile
 from pybotlib import VirtualAgent
 from pandas import DataFrame, read_excel, read_csv
 from pybotlib.utils import check_and_dl_chrome_driver
-from os.path import join 
+from os.path import join
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import ElementNotVisibleException
 import traceback
@@ -18,14 +18,14 @@ def getFinancialReports(my_bot, tickers, report):
     for ticker in tickers:
         my_bot.log("searching edgar for %s" % ticker)
         url = "https://www.sec.gov/edgar/searchedgar/companysearch.html"
-       
+
         my_bot.get(url)
         searchBox = (
             my_bot.find_by_tag_and_attr(
                 tag="input",
                 attribute="id",
                 evaluation_string="cik",
-                sleep_secs=0.5)
+                sleep_secs=3)
             )[0]
         searchBox.clear()
         searchBox.send_keys(ticker, Keys.ENTER)
@@ -34,8 +34,9 @@ def getFinancialReports(my_bot, tickers, report):
                 tag="input",
                 attribute="id",
                 evaluation_string="type",
-                sleep_secs=0.5)
+                sleep_secs=3)
             )[0]
+        time.sleep(4)
         typeBox.send_keys(report, Keys.ENTER)
 
         interactiveFields = (
@@ -43,7 +44,7 @@ def getFinancialReports(my_bot, tickers, report):
                 tag="a",
                 attribute="id",
                 evaluation_string="interactiveDataBtn",
-                sleep_secs=0.5)
+                sleep_secs=3)
             )
         interactiveFields[0].click()
         exportExcel = (
@@ -51,30 +52,32 @@ def getFinancialReports(my_bot, tickers, report):
                 tag="a",
                 attribute="class",
                 evaluation_string="xbrlviewer",
-                sleep_secs=0.5)
+                sleep_secs=3)
             )
         exportExcel = [
             el for el in exportExcel if el.text == "View Excel Document"
             ]
-        
+
         exportExcel[0].click()
 
-        while not len(glob.glob(my_bot.downloads_dir + r"\\*.xlsx")) > 0:
+        while not len(glob.glob(os.path.join(my_bot.downloads_dir,  r"*.xlsx"))) > 0:
             time.sleep(1)
+            print("waiting for download")
 
-        if os.path.exists(my_bot.downloads_dir + r"\\%s" % ticker):
+        if os.path.exists(os.path.join(my_bot.downloads_dir,  ticker)):
             pass
         else:
-            os.mkdir(my_bot.downloads_dir + r"\\%s" % ticker)
-        
+            os.mkdir(os.path.join(my_bot.downloads_dir,  ticker))
+
         downloadedReport = glob.glob(
-            my_bot.downloads_dir +  r"\\*.xlsx"
+            os.path.join(my_bot.downloads_dir,  r"*.xlsx")
             )[0]
-        
-        destination = my_bot.downloads_dir + r"\\%s" % ticker + r"\\Financial_Report.xlsx"
+
+        destination = os.path.join(my_bot.downloads_dir,  ticker,"Financial_Report.xlsx")
+
         moveFile(downloadedReport, destination)
         time.sleep(5)
-    
+
 def getNewsData(my_bot, tickers, names):
 
     """ Downloads recent news data relating to company name by relevance in the last 24 hours. """
@@ -103,12 +106,12 @@ def getNewsData(my_bot, tickers, names):
                     )[0].click()
             except:
                 break
-        
+
         titles = my_bot.find_by_tag_and_attr(tag="a", attribute="class", evaluation_string="title", sleep_secs=2)
         title_texts = [i.text for i in titles]
         title_links = [i.get_attribute("href") for i in titles]
 
-        times = [  i.text for i in 
+        times = [  i.text for i in
             my_bot.find_by_tag_and_attr(tag="span", attribute="class", evaluation_string="stime", sleep_secs=0.1)
             ]
 
@@ -127,7 +130,7 @@ def getNewsData(my_bot, tickers, names):
             print("Raising Exception")
             raise Exception("Srcap not successful !")
 
-        destination = my_bot.downloads_dir + "\\%s" %tickers[index] + "\\NewsData_%s.xlsx" % datetime.datetime.now().strftime("%Y_%m_%d")
+        destination = os.path.join(my_bot.downloads_dir,"%s" %tickers[index] , "NewsData_%s.xlsx" % datetime.datetime.now().strftime("%Y_%m_%d"))
         data = stockData.pop()
         data.to_excel(destination)
 
@@ -135,7 +138,10 @@ def run_robot():
 
     try:
         # First Stage: Download financial transcripts from EDGAR database
-        my_bot = VirtualAgent(bot_name="EDGAR_investigator_bot", downloads_directory = "EDGAR_bot" )
+        my_bot = VirtualAgent(
+		bot_name="EDGAR_investigator_bot",
+		downloads_directory=os.path.join(os.getcwd(), "bot_downloads"),
+		firefoxProfile="/home/david/.mozilla/firefox")
         # Creates log file to log an auditable trail and collect errors
         my_bot.create_log_file()
         # Reads tickers from excel into a list

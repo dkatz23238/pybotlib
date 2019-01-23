@@ -10,12 +10,15 @@ import uuid
 import csv
 from exceptions import NoElementsSatisfyConditions
 from time import gmtime, strftime
-
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options as Foptions
 DIDNOTINIT = "Use .initialize_driver() to instantiate a webdriver session. "
 LOG_FILE_MESSAGE = "Create and initialize logfile using .create_log_file(bot_name) before logging"
 
 def generate_js(tag, atr, evalString):
-    """ 
+    """
     Generates js string for web element searching.
 
     Parameters
@@ -29,7 +32,7 @@ def generate_js(tag, atr, evalString):
     evalString: str
         Used to determine if attribute of HTML is element is equal to this string.
 
-    
+
     """
     js = """
     function find_by_tag_and_attr(tag, atr, evalString) {
@@ -49,7 +52,7 @@ def generate_js(tag, atr, evalString):
 
 class VirtualAgent(object):
     """
-    Creates an instance of RPA object: 
+    Creates an instance of RPA object:
 
     RPA objects can be used to create a virtual
     assistant that will cary out a series of event-based
@@ -59,16 +62,16 @@ class VirtualAgent(object):
     ----------
     bot_name: str
         Name of the RPA. Used for logging and identification purposes.
-    
+
     downloads_directory: str
         Name of the subfolder to which all file downloads from the internet will be downloaded to.
 
     df: Pandas.DataFrame, optional
         Used to embed a table in the object if needed.
-    
-    chromeProfile: str, optional
+
+    firefoxProfile: str, optional
         Specific name of the ChromeProfile subfolder to use when using the google chrome driver. Usefull to retain cookies and other web based data.
-        Profiles can be found under: C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default
+        Profiles can be found under: "~/.mozilla/firefox/profiles.ini"
 
     Example:
 
@@ -86,72 +89,66 @@ class VirtualAgent(object):
     Usefull to identify all files downloaded by specific RPA bot.
 
     """
-    def __init__(self,bot_name,downloads_directory,df=None, chromeProfile=None):
+    def __init__(self,bot_name,downloads_directory,df=None, firefoxProfile=None):
 
         self.bot_name = bot_name
+        self.downloads_dir = downloads_directory
         self.logfile_row_counter = 0
+
+
         if df is None:
             pass
         else:
             self.DataFrame = df
             print("DataFrame Provided to RPA")
 
-        if platform.system() == "Windows":
-            user = os.environ["USERNAME"]
-            driver_path = r"C:\chromedriver_win32\chromedriver.exe"
-            self.downloads_dir = r"C:\Users\%s\Downloads\%s"%(user, downloads_directory)
+        if platform.system() == "Linux":
+            pass
+        else:
+            raise Exception("Not Linux System! Please use another branch of pybotlib.")
 
-        elif platform.system() == "Darwin":
-            user = os.environ["LOGNAME"]
-            driver_path = "/chromedriver_mac64/chromedriver"
-            self.downloads_dir = r"/Users/%s/Downloads/%s"%(user, downloads_directory)
+        opts = Options()
 
-        chop = webdriver.ChromeOptions()
-        user = os.environ.get('USERNAME')
-        chop.add_argument('log-level=3')
-        chop.add_argument('--start-maximized')
+        if firefoxProfile is None:
+            pass
+        else:
+            self.fprefs = webdriver.FirefoxProfile(firefoxProfile)
+            self.fprefs.set_preference("browser.download.folderList",2)
+            self.fprefs.set_preference("browser.download.dir", self.downloads_dir)
+            mime_types = [
+                'text/plain',
+                'application/vnd.ms-excel',
+                'text/csv',
+                'application/csv',
+                'text/comma-separated-values',
+                'application/download',
+                'application/octet-stream',
+                'binary/octet-stream',
+                'application/binary',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ]
+            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", ",".join(mime_types))
+            self.fprefs.set_preference("browser.helperApps.alwaysAsk.force", False)
+            self.fprefs.update_preferences()
+            self.fops = Foptions()
 
-        if platform.system() == "Windows":
-            if chromeProfile == None:
-                chop.add_argument(r"user-data-dir=C:\Users\\"+user+r"\AppData\Local\Google\Chrome\User Data\Profile 1")
-            else:
-                 chop.add_argument(r"user-data-dir=C:\Users\\"+user+r"\AppData\Local\Google\Chrome\User Data\%s" %chromeProfile)
-        elif platform.system() == "Darwin":
-                    pass
-
-        chop.add_argument("--start-maximized")
-        chop.add_experimental_option("prefs", {
-      	"download.default_directory": self.downloads_dir,
-     	"download.prompt_for_download": False,
-      	"download.directory_upgrade": True,
-      	"safebrowsing.enabled": True,
-        "plugins.plugins_disabled": "Chrome PDF Viewer"})
-        #will allow direct downloads of pdf
-
-        self.chop = chop
-        self.driver_path = driver_path
+        self.firefox_options = opts
         self.driver = None
         self.uid = str(uuid.uuid4().hex)
         self.logfile_path = None
 
     def create_log_file(self):
         """
-        Creates a log csv under C:\Users\%USERNAME%\pybotlib_logs.
+        Creates a log csv under "./pybotlib_logs"
         You can log transactional or execution logs once the file has been created.
         """
         bot_name= self.bot_name
 
-        try:
-            usr =  os.environ["USERNAME"]
-        except:
-            usr =  os.environ["LOGNAME"]
+        usr = os.environ["USER"]
 
+        if platform.system() == "Linux":
 
-        if platform.system() == "Windows":
-
-            self.log_path = "c:\\Users\\%s\\pybotlib_logs"%usr
-        else:
-            self.log_path = "/Users/%s/pybotlib_logs"%usr
+            self.log_path = os.path.join(".", "pybotlib_logs")
 
         exists = os.path.exists(self.log_path)
 
@@ -169,7 +166,7 @@ class VirtualAgent(object):
             uid = self.uid
             bot_name = "%s - %s - %s" %(bot_name, str(uid), str(datetime.datetime.now().strftime("%b %Y")))
             print(bot_name)
-        
+
         logfile = os.path.join(self.log_path, bot_name+".csv")
         self.logfile_path = logfile
 
@@ -197,14 +194,14 @@ class VirtualAgent(object):
     def log(self, message, tag="transaction"):
         """
         Logs a message to the currently active log file
-        
+
         Parameters
         ----------
         message : str
             Message to be logged.
         tag: str
             Tag assoacited to message. Defaults to "transactional"
-        
+
         """
         if self.logfile_path is None:
             print(LOG_FILE_MESSAGE)
@@ -229,7 +226,7 @@ class VirtualAgent(object):
             }
             writer.writerow(row)
             self.logfile_row_counter += 1
-    
+
     def log_bot_completion(self):
         """ Logs that the RPA has sucesfully completed. To be used at the very end of the RPA"""
         if self.logfile_path is None:
@@ -261,10 +258,20 @@ class VirtualAgent(object):
 
     def initialize_driver(self):
         """ Inits a new Chrome driver session to interact with applications through the web. """
-        self.driver = webdriver.Chrome(self.driver_path, chrome_options = self.chop)
+        if not self.fprefs is None:
+            firefox_capabilities = DesiredCapabilities.FIREFOX
+            firefox_capabilities['marionette'] = True
+
+            self.driver = webdriver.Firefox(
+                capabilities=firefox_capabilities,
+                executable_path="./geckodriver",
+                firefox_profile=self.fprefs,
+                firefox_options=self.fops)
+        else:
+            self.driver = webdriver.Firefox(executable_path="./geckodriver")
 
     def get(self, url):
-        """ Directs the Chrome driver to a URL""" 
+        """ Directs the Chrome driver to a URL"""
         if self.driver is None:
             print(DIDNOTINIT)
         else:
@@ -286,15 +293,15 @@ class VirtualAgent(object):
         ----------
         tag : str
             HTML tag to begin search for. If the element we seek is an <input> we would pass the argument "input".
-        
+
         attribute: str
             Which attribute of the HTML element do we evaluate in order to interact with a webpage.
             To name a few: "class", "id", or "placeholder", are all possible examples.
 
         evaluation_string: str
-            What text should we evaluate when searching the elements on the page. If our attribute is "id" and 
+            What text should we evaluate when searching the elements on the page. If our attribute is "id" and
             evaluation string is "001" we will reduce our search the the elements that id == "001".
-        
+
         sleep_secs: float
             How many seconds to sleep before executing search
 
@@ -305,14 +312,14 @@ class VirtualAgent(object):
         ----------
         list or selenium.webdriver.remote.webelement
             Either returns a list of webelement objects or an individual webelement object depending on the return_many argument.
-        
+
         Example:
         my_bot.find_by_tag_and_attr(
             tag="a",
             attribute="class",
             evalutaion_string="special_class",
             sleep_secs=0.2)
-        
+
         """
         if self.driver is None:
             print(DIDNOTINIT)
@@ -329,4 +336,5 @@ class VirtualAgent(object):
                 raise NoElementsSatisfyConditions("No elements found satisfying conditions!")
     def quit_driver(self):
         """ Quits out of the web driver."""
-        self.driver.quit()
+        #self.driver.close()
+        self.driver.close()
