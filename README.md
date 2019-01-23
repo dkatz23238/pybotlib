@@ -1,10 +1,11 @@
-# pybotlib: A Python RPA Library🤖
+# pybotlib: A Python RPA Library🤖 (Ubuntu Branch)
 
 ![pybotlib-image](https://github.com/dkatz23238/pybotlib/raw/master/img/pybotlib.png)
 
 # What is pybotlib?
 pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15.
-It is recomended to run on a Windows client but will also function on Mac OS.
+
+This specific branch has been optimized and tested to run on an Ubuntu desktop client.
 
 Aimed at outperforming and outcosting closed sourced solutions such as Automation Anywhere or Blueprism, pybotlib consists of a central wrapper around the selenium webdriver exposing highly customized methods and functions through an efficient and easy to use API.
 
@@ -31,12 +32,10 @@ Some conveniences  provided are:
 pip install -r requirements.txt
 ```
 
-2) Make sure Google Chrome is installed on the host machine. Be prepared to run the check_and_dl_chrome_driver function provided in the library in order to download the most recent chrome webdriver for process automation. Running the following code will download the latest chromedriver and customize extensions optimized for RPA development:
+2) Make sure that Mozilla Firefox is installed on the host machine. Run the provied batch script to install the geckodriver needed to automate web activities.
 
 ```
-from pybotlib.utils import check_and_dl_chrome_driver
-# Checks if Google Chrome Driver is found on machine. Downloads if needed.
-check_and_dl_chrome_driver()
+sudo bash "get_geckodriver.sh"
 ```
 
 3) You are now ready to use the package. Import the VirtualAgent class with the following code:
