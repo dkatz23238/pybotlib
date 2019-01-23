@@ -141,7 +141,7 @@ def run_robot():
         my_bot = VirtualAgent(
 		bot_name="EDGAR_investigator_bot",
 		downloads_directory=os.path.join(os.getcwd(), "bot_downloads"),
-		firefoxProfile="/home/david/.mozilla/firefox")
+		firefoxProfile="/home/%/.mozilla/firefox" % os.environ["USER"])
         # Creates log file to log an auditable trail and collect errors
         my_bot.create_log_file()
         # Reads tickers from excel into a list
