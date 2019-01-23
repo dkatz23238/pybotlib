@@ -58,7 +58,12 @@ To create an instance of an active RPA we must instantiate the VirtualAgent clas
 
 
 ```
-human_resources_bot = VirtualAgent(bot_name="HR_bot", downloads_directory="timesheets")
+human_resources_bot = VirtualAgent(
+  bot_name="EDGAR_investigator_bot",
+		downloads_directory=os.path.join(os.getcwd(), "bot_downloads"),
+		firefoxProfile="/home/$USER/.mozilla/firefox"
+  )
+
 human_resources_bot.create_log_file()
 human_resources_bot.initialize_driver()
 human_resources_bot.log("WebDriver Initiated")
