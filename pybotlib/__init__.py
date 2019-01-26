@@ -117,6 +117,7 @@ class VirtualAgent(object):
             self.fprefs.set_preference("browser.download.dir", self.downloads_dir)
             mime_types = [
                 'text/plain',
+                'application/pdf',
                 'application/vnd.ms-excel',
                 'text/csv',
                 'application/csv',
