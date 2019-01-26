@@ -131,6 +131,9 @@ class VirtualAgent(object):
             self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", ",".join(mime_types))
             self.fprefs.set_preference("browser.helperApps.alwaysAsk.force", False)
             self.fprefs.update_preferences()
+            self.fprefs.set_preference("plugin.disable_full_page_plugin_for_types", "application/pdf")
+            self.fprefs.set_preference("pdfjs.disabled", True)
+            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/pdf")
             self.fops = Foptions()
 
         self.firefox_options = opts
