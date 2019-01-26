@@ -160,7 +160,6 @@ def save_emails_to_CWD(list_of_mails):
 
     if not os.path.exists("pybotlib_emails"):
         os.mkdir("pybotlib_emails")
-
     for mail in list_of_mails:
 
         if type(mail) != mailparser.mailparser.MailParser:
@@ -171,22 +170,23 @@ def save_emails_to_CWD(list_of_mails):
         body = mail.body
         mail_date = dt_parse(mail.Date).strftime("%m-%d-%Y %H.%M.%S")
 
-        folder_name = "pybotlib_emails\\%s" % (mail.headers["Message-ID"].split("-")[1] +" "+mail_date)
+        folder_name = os.path.join("pybotlib_emails", mail.headers["Message-ID"].split("-")[1] +" " + mail_date))
 
         if not os.path.exists(folder_name):
             os.mkdir(folder_name)
 
-        f = open(folder_name +"\\header.json", "w")
+        f = open(os.path.join(folder_name, "header.json"), "w")
         f.write(str(header))
         f.close()
 
-        f = open(folder_name + "\\body.txt", "w")
+        f = open(os.path.join(folder_name, "body.txt"), "w")
         f.write(body)
         f.close()
 
         for a in mail.attachments:
             print(a)
-            with open(folder_name + "\%s" % a["filename"], "w" ) as f:
+            dst =  folder_name = os.path.join("pybotlib_emails", mail.headers["Message-ID"].split("-")[1] +" " + mail_date, a["filename"]))
+            with open(dst, "w" ) as f:
                 f.write(a["payload"].decode(a["content_transfer_encoding"]))
                 f.close()
         return
