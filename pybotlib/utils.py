@@ -170,7 +170,7 @@ def save_emails_to_CWD(list_of_mails):
         body = mail.body
         mail_date = dt_parse(mail.Date).strftime("%m-%d-%Y %H.%M.%S")
 
-        folder_name = os.path.join("pybotlib_emails", mail.headers["Message-ID"].split("-")[1] +" " + mail_date))
+        folder_name = os.path.join("pybotlib_emails", mail.headers["Message-ID"].split("-")[1] +" " + mail_date)
 
         if not os.path.exists(folder_name):
             os.mkdir(folder_name)
@@ -185,7 +185,7 @@ def save_emails_to_CWD(list_of_mails):
 
         for a in mail.attachments:
             print(a)
-            dst =  folder_name = os.path.join("pybotlib_emails", mail.headers["Message-ID"].split("-")[1] +" " + mail_date, a["filename"]))
+            dst =  folder_name = os.path.join("pybotlib_emails", mail.headers["Message-ID"].split("-")[1] +" " + mail_date, a["filename"])
             with open(dst, "w" ) as f:
                 f.write(a["payload"].decode(a["content_transfer_encoding"]))
                 f.close()
