@@ -140,7 +140,7 @@ class VirtualAgent(object):
             self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.ms-excel")
             self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.ms-excel")
-            self.fprefs.set_ṕreference("browser.download.useDownloadDir", True)
+            self.fprefs.set_preference("browser.download.useDownloadDir", True)
             self.fops = Foptions()
 
         self.firefox_options = opts
