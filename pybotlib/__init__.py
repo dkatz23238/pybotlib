@@ -134,6 +134,9 @@ class VirtualAgent(object):
             self.fprefs.set_preference("plugin.disable_full_page_plugin_for_types", "application/pdf")
             self.fprefs.set_preference("pdfjs.disabled", True)
             self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/pdf")
+            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.ms-excel")
+            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.ms-excel")
             self.fops = Foptions()
 
         self.firefox_options = opts
