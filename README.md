@@ -19,7 +19,7 @@ Some conveniences  provided are:
  - Integration with SAP scripting client (coming soon) (Windows only)
  - Documentation and examples to create robust enterprise grade RPAs using python
 
- - Integration with major platforms for task specific business automaions
+ - Integration with major platforms for task specific business process automation
 
 ## Getting Started
 
