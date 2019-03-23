@@ -134,6 +134,8 @@ def getNewsData(my_bot, tickers, names):
 def run_robot():
 
     try:
+        # Run initial check
+        check_and_dl_chrome_driver()
         # First Stage: Download financial transcripts from EDGAR database
         my_bot = VirtualAgent(bot_name="EDGAR_investigator_bot", downloads_directory = "EDGAR_bot" )
         # Creates log file to log an auditable trail and collect errors

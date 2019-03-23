@@ -1,12 +1,12 @@
-# pybotlib: A Python RPA Library🤖
 
-![pybotlib-image](https://github.com/dkatz23238/pybotlib/raw/master/img/pybotlib.png)
+![pybotlib-image](/img/pybotlib.png)
 
-# What is pybotlib?
-pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15.
-It is recomended to run on a Windows client but will also function on Mac OS.
+# What is ```pybotlib```?
+```pybotlib``` is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15.
+The master branch of pybotlib is developed to run on Windows 10.
+In order to use pybotlib with Linux refer to the ubuntu-client branch.
 
-Aimed at outperforming and outcosting closed sourced solutions such as Automation Anywhere or Blueprism, pybotlib consists of a central wrapper around the selenium webdriver exposing highly customized methods and functions through an efficient and easy to use API.
+Aimed at outperforming and outcosting closed sourced solutions such as Automation Anywhere or Blueprism, ```pybotlib``` consists of a central wrapper around the selenium webdriver exposing highly customized methods and functions through an efficient and easy to use API.
 
 The package's goal is to facilitate the RPA development process and bring Python into the Intelligent Automation and Robotic Process Automation industries.
 
@@ -16,36 +16,40 @@ Some conveniences  provided are:
 
  - RPA logging locally hosted or integrated with Google Cloud StackDriver (coming soon)
 
- - Integration with SAP scripting client (coming soon) (Windows only)
  - Documentation and examples to create robust enterprise grade RPAs using python
 
  - Integration with major platforms for task specific business process automation
 
-## Getting Started
+Features that are in development:
+ - Integration with SAP scripting client 
+ - Logging with GCP StackDriver
+ - Integrations with Google Drive
 
- 0) First download or clone the repository and cd into the directory. Make sure Python27 is installed.
+## 👨🏻‍💻 Installation
 
- 1) Install necessary packages by running the pip command with provided requirements.txt file:
+ 1. First download or clone the repository and cd into the directory. Make sure Python27 is installed.
 
-```
-pip install -r requirements.txt
-```
+ 2. Install necessary packages by running the pip command with provided requirements.txt file:
 
-2) Make sure Google Chrome is installed on the host machine. Be prepared to run the check_and_dl_chrome_driver function provided in the library in order to download the most recent chrome webdriver for process automation. Running the following code will download the latest chromedriver and customize extensions optimized for RPA development:
+    ```
+    pip install -r requirements.txt
+    ```
 
-```
-from pybotlib.utils import check_and_dl_chrome_driver
-# Checks if Google Chrome Driver is found on machine. Downloads if needed.
-check_and_dl_chrome_driver()
-```
+3. Make sure Google Chrome is installed on the host machine. Be prepared to run the check_and_dl_chrome_driver function provided in the library in order to download the most recent chrome webdriver for process automation. Running the following code will download the latest chromedriver and .crx extensions:
 
-3) You are now ready to use the package. Import the VirtualAgent class with the following code:
+    ```
+    from pybotlib.utils import check_and_dl_chrome_driver
+    # Checks if Google Chrome Driver is found on machine. Downloads if needed.
+    check_and_dl_chrome_driver()
+    ```
 
-```
-from pybotlib import *
-```
+4. You are now ready to use the package. Import the VirtualAgent class with the following code:
 
-## Example Robot
+    ```
+    from pybotlib import *
+    ```
+
+## 🤖Example Robot
 
 I have provided an example robot named investigator_RPA.py. This bot will lookup relevant news articles for specific topics provided in a list. Once completed all the steps above run the following lines of code to execute the robot. Feel free to edit and customize the robot on your machine!
 
@@ -53,7 +57,7 @@ I have provided an example robot named investigator_RPA.py. This bot will lookup
 python investigator_RPA.py
 ```
 
-## Quick Start
+## ⚙️ Developing custom RPA's
 
 To create an instance of an active RPA we must instantiate the VirtualAgent class. The instance will be the central object in our workflow and process automation.
 
@@ -76,7 +80,7 @@ my_robot = VirtualAgent(bot_name="my_robot", downloads_directory="my_robot_downl
 my_robot.find_by_tag_and_attr(tag, attribute, evaluation_string, sleep_secs)
 ```
 
-## Logging and RPA Auditability
+## 👁‍🗨 Logging and RPA Auditability
 
 When developing RPAs you usually want to be able to log two different types of events: execution logs and transactional logs. Transactional logs give information about the process you are automating while the execution log provides information on the specific run of an RPA.
 
@@ -96,14 +100,14 @@ Pybotlib creates a folder called pybotlib_logs under the current User's director
 
 ```VirtualAgent.log_bot_completion()``` will log a message "end" to the log file tagged as execution.
 
-## Documentation
+## 📜 Documentation
 
 Docs coming soon. Stay tuned or sign up for our mailing list *here*
 
-## License
+## 📃 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## 📚 Acknowledgments
 
-* Thanks to @AlSweigart for inspiring this package
+* Thanks to @AlSweigart for inspiring this package. After I read his free ebook I was inspired to take his work to the next level and start developing a stack of products for enterprise grade RPA development. ```pybotlib``` is the first of many
