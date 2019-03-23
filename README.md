@@ -37,7 +37,7 @@ Features that are in development:
 
 3. Make sure Google Chrome is installed on the host machine. Be prepared to run the check_and_dl_chrome_driver function provided in the library in order to download the most recent chrome webdriver for process automation. Running the following code will download the latest chromedriver and .crx extensions:
 
-    ```
+    ``` py
     from pybotlib.utils import check_and_dl_chrome_driver
     # Checks if Google Chrome Driver is found on machine. Downloads if needed.
     check_and_dl_chrome_driver()
@@ -45,7 +45,7 @@ Features that are in development:
 
 4. You are now ready to use the package. Import the VirtualAgent class with the following code:
 
-    ```
+    ``` py
     from pybotlib import *
     ```
 
@@ -53,7 +53,7 @@ Features that are in development:
 
 I have provided an example robot named investigator_RPA.py. This bot will lookup relevant news articles for specific topics provided in a list. Once completed all the steps above run the following lines of code to execute the robot. Feel free to edit and customize the robot on your machine!
 
-```
+``` 
 python investigator_RPA.py
 ```
 
@@ -62,7 +62,7 @@ python investigator_RPA.py
 To create an instance of an active RPA we must instantiate the VirtualAgent class. The instance will be the central object in our workflow and process automation.
 
 
-```
+``` py
 human_resources_bot = VirtualAgent(bot_name="HR_bot", downloads_directory="timesheets")
 human_resources_bot.create_log_file()
 human_resources_bot.initialize_driver()
@@ -75,7 +75,7 @@ Ideally this should be done with the least lines of code possible.
 
 This is why we have created the find_by_tag_and_attr method that iterates through every single element of a specific tag on a page and evaluates if any of the elements attributes matches the evaluation string provided. Matched elements are returned in a list.
 
-```
+``` py
 my_robot = VirtualAgent(bot_name="my_robot", downloads_directory="my_robot_downloads_folder")
 my_robot.find_by_tag_and_attr(tag, attribute, evaluation_string, sleep_secs)
 ```
@@ -92,13 +92,25 @@ Pybotlib creates a folder called pybotlib_logs under the current User's director
 | 1   | searching edgar for AAPL | transaction | 2019-01-11 11:44:06.216000 | Pacific Standard Time |
 | 2   | ...                      | ...         | ...                        | ...                   |
 
-```VirtualAgent.create_log_file()``` will create the csv used to audit the execution of an RPA. Will also create the first row in log file to signal bot start.
+``` py
+VirtualAgent.create_log_file()
+``` 
+will create the csv used to audit the execution of an RPA. Will also create the first row in log file to signal bot start.
 
-```VirtualAgent.log(message)``` will directly log a transaction tagged message to the current file.
+```py
+VirtualAgent.log(message)
+``` 
+will directly log a transaction tagged message to the current file.
 
-```VirtualAgent.log(message, tag=TAG)``` allows users to customize tags
+```py
+VirtualAgent.log(message, tag=TAG)
+```
+allows users to customize tags
 
-```VirtualAgent.log_bot_completion()``` will log a message "end" to the log file tagged as execution.
+```py
+VirtualAgent.log_bot_completion()
+``` 
+will log a message "end" to the log file tagged as execution.
 
 ## 📜 Documentation
 
