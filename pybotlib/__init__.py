@@ -113,6 +113,7 @@ class VirtualAgent(object):
         opts = Options()
 
         if firefoxProfile is None:
+            raise Exception("PLEASE PROVIDE Firefox PROFILE")
             pass
         else:
             self.fprefs = webdriver.FirefoxProfile(firefoxProfile)
@@ -134,13 +135,6 @@ class VirtualAgent(object):
             self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", ",".join(mime_types))
             self.fprefs.set_preference("browser.helperApps.alwaysAsk.force", False)
             self.fprefs.update_preferences()
-            self.fprefs.set_preference("plugin.disable_full_page_plugin_for_types", "application/pdf")
-            self.fprefs.set_preference("pdfjs.disabled", True)
-            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/pdf")
-            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.ms-excel")
-            self.fprefs.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/vnd.ms-excel")
-            self.fprefs.set_preference("browser.download.useDownloadDir", True)
             self.fops = Foptions()
 
         self.firefox_options = opts
@@ -269,17 +263,10 @@ class VirtualAgent(object):
 
     def initialize_driver(self):
         """ Inits a new Chrome driver session to interact with applications through the web. """
-        if not self.fprefs is None:
-            firefox_capabilities = DesiredCapabilities.FIREFOX
-            firefox_capabilities['marionette'] = True
-
-            self.driver = webdriver.Firefox(
-                capabilities=firefox_capabilities,
-                executable_path="./geckodriver",
-                firefox_profile=self.fprefs,
-                firefox_options=self.fops)
-        else:
-            self.driver = webdriver.Firefox(executable_path="./geckodriver")
+        self.driver = webdriver.Firefox(
+            executable_path="./geckodriver",
+            firefox_profile=self.fprefs,
+            firefox_options=self.fops)
 
     def get(self, url):
         """ Directs the Chrome driver to a URL"""

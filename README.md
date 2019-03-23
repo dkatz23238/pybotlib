@@ -1,11 +1,12 @@
-# pybotlib: A Python RPA Library🤖 (Ubuntu Branch)
 
 ![pybotlib-image](https://github.com/dkatz23238/pybotlib/raw/master/img/pybotlib.png)
 
 # What is pybotlib?
 pybotlib is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15.
 
-This specific branch has been optimized and tested to run on an Ubuntu desktop client.
+This specific branch has been optimized and tested to run on an Ubuntu desktop client. It can run on other Linux enviornments.
+
+For the windows version of pybotlib check out the master branch.
 
 Aimed at outperforming and outcosting closed sourced solutions such as Automation Anywhere or Blueprism, pybotlib consists of a central wrapper around the selenium webdriver exposing highly customized methods and functions through an efficient and easy to use API.
 
@@ -40,7 +41,7 @@ sudo bash "get_geckodriver.sh"
 
 3) You are now ready to use the package. Import the VirtualAgent class with the following code:
 
-```
+``` py
 from pybotlib import *
 ```
 
@@ -57,7 +58,7 @@ python investigator_RPA.py
 To create an instance of an active RPA we must instantiate the VirtualAgent class. The instance will be the central object in our workflow and process automation.
 
 
-```
+``` py
 human_resources_bot = VirtualAgent(
   bot_name="EDGAR_investigator_bot",
 		downloads_directory=os.path.join(os.getcwd(), "bot_downloads"),
@@ -75,7 +76,7 @@ Ideally this should be done with the least lines of code possible.
 
 This is why we have created the find_by_tag_and_attr method that iterates through every single element of a specific tag on a page and evaluates if any of the elements attributes matches the evaluation string provided. Matched elements are returned in a list.
 
-```
+``` py
 my_robot = VirtualAgent(bot_name="my_robot", downloads_directory="my_robot_downloads_folder")
 my_robot.find_by_tag_and_attr(tag, attribute, evaluation_string, sleep_secs)
 ```
