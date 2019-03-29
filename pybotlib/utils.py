@@ -1,26 +1,31 @@
-from os import mkdir
-from requests import get
-from shutil import copy
-import StringIO
-from zipfile import ZipFile
-from os.path import exists
+import datetime
+import email
+import email.header
+import getpass
+import imaplib
+import os
 import platform
-import email, smtplib, ssl
+import smtplib
+import ssl
+import StringIO
+import sys
+import time
+from datetime import datetime, timedelta
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import sys
-import imaplib
-import getpass
-import email
-import email.header
-import datetime
+from io import BytesIO
+from os import mkdir
+from os.path import exists
+from shutil import copy
+from zipfile import ZipFile
+
 import mailparser as mailparser
-import time
-import os
-import datetime
-from datetime import datetime,timedelta
+import requests
+from pandas import read_csv
+from requests import get
+import pygsheets
 
 def check_and_dl_chrome_driver():
 
@@ -494,3 +499,39 @@ def send_HTML_email_with_attachement(subject, body, sender_email, receiver_email
     else:
         print("Login Failed!")
         return
+
+def pandas_read_google_sheets(sheet_id):
+    ''' Returns a pandas DataFrame from a spreadsheet in google sheets. Make sure the spreadsheet has a "view" link and only contains one tab of data.
+        Parameter is signel sheet_id. This function should be used for sheets that have a link enabled to view. For private data use save_csv_from_googlesheets,
+        This uses a secure JSON credentials file that must be generated in Google Drive.
+        This is an example of a sheet_id = 1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko'''
+    r = requests.get('https://docs.google.com/spreadsheets/d/%s/export?format=csv' % sheet_id)
+    data = r.content
+    df = read_csv(BytesIO(data))
+    return df
+
+def save_csv_from_googlesheets(service_file, sheet_url, filename):
+    ''' Save a google sheets table to .csv with name filename. Needs JSON credentials file location, full google sheets URL and filename to be saved.
+        Google Sheet must be shared with view access to service account listed in JSON credentials file under 'client_email'.
+        
+        Example:
+            SERVICE_FILE = "./GoogleAccountCredFile-302c895e0b60.json"
+            SHEET_URL = "https://docs.google.com/spreadsheets/d/1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko"
+            FILE_NAME = "data"
+            
+            if save_csv_from_googlesheets(SERVICE_FILE, SHEET_URL, FILE_NAME):
+                print("File Saved To Disk")
+            
+
+        Returns True uppon completion else raises and Exception'''
+    try:
+    #authorization
+        gc = pygsheets.authorize(service_file=service_file)
+        # Open google sheets from URL
+        sh = gc.open_by_url(sheet_url)
+        #select the first sheet
+        wks = sh[0]
+        wks.export(filename = filename)
+        return True
+    except Exception as e:
+        raise e

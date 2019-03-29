@@ -8,3 +8,5 @@ xlrd
 openpyxl
 mail-parser
 pyautogui
+pygsheets
+minio
