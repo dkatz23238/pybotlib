@@ -181,9 +181,14 @@ def run_robot():
     except Exception as e:
         # Logs exceptions
         my_bot.log(message="ERROR: %s" %str(e), tag="execution")
-        my_bot.driver.quit()
+        
+        try:
+            my_bot.driver.quit()
+        except:
+            pass
         # Print out stack trace
         traceback.print_exc()
+        # raise error if fails
         raise e
 
 if __name__ == "__main__":
