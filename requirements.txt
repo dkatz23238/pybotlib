@@ -12,4 +12,4 @@ minio
 BeautifulSoup4
 python-xlib
 Xlib
-PyAutoGUI==0.90
+PyAutoGUI==0.9.0
