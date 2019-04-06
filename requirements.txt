@@ -7,8 +7,9 @@ html5lib
 xlrd
 openpyxl
 mail-parser
-Xlib
+python-xlib
 PyAutoGUI==0.9.0
 pygsheets
 minio
 BeautifulSoup4
+Xlib
