@@ -3,9 +3,11 @@ selenium==3.12.0
 pandas==0.22.0
 requests
 lxml
+htmllib5
 xlrd
 openpyxl
 mail-parser
-pyautogui
+PyAutoGUI==0.9.0
 pygsheets
 minio
+BeautifulSoup4
