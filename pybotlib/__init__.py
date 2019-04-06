@@ -113,7 +113,7 @@ class VirtualAgent(object):
         opts = Options()
 
         if firefoxProfile is None:
-            raise Exception("PLEASE PROVIDE Firefox PROFILE")
+            # raise Exception("PLEASE PROVIDE Firefox PROFILE")
             pass
         else:
             self.fprefs = webdriver.FirefoxProfile(firefoxProfile)
