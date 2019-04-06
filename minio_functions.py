@@ -32,7 +32,7 @@ def write_file_to_minio_bucket(host_uri, minio_access_key, minio_secret_key, buc
             object = minioClient.fput_object(
                 bucket_name=bucket_name, object_name=filename, file_path="./%s" % filename
             )
-            print("MINIO FILE WRITE COMPLETE!")
+            # print("MINIO FILE WRITE COMPLETE!")
             # print(object)
         except Exception as e:
             raise e
