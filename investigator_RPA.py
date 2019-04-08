@@ -122,8 +122,8 @@ def run_robot():
         time.sleep(5)
         # Reads out company names from excel into a list
         my_bot.log_bot_completion()
-        print("Robot Complete!")
-        print(read_csv(my_bot.logfile_path, encoding="utf-8").set_index("idx"))
+        # print("Robot Complete!")
+        # print(read_csv(my_bot.logfile_path, encoding="utf-8").set_index("idx"))
 
         ########## CLEAN UP AND OUTPUT DATA PERSISTANCE ##########
         create_minio_bucket(MINIO_URI, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, MINIO_OUTPUT_BUCKET_NAME )
