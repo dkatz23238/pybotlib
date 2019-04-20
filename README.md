@@ -53,7 +53,7 @@ from pybotlib import *
 I have provided an example robot named investigator_RPA.py. This RPA will read a table with company names and download official financial reports from the Securitiy and Exchanges Comission website. It a simple robot teared down to the bear minimum in order to exemplify how to best use pybotlin and also how to decouple the business input and output data from the RPA itself. The input data for this RPA is just a googlesheets I have hosted with a few comapany names and can be found [here](https://docs.google.com/spreadsheets/d/1pBecz5Db9eK0QDR_oePmamdaFtEiCaO69RaE-Ozduko/edit?usp=sharing).
 
 
-The output data is programmed to be sent ot a Minio file server you can run one locally or use your own and change the env variables in env-var.sh
+The output data is programmed to be sent to a Minio file server you can run one locally or use your own and change the env variables in env-var.sh
 
 
 Run a minio file server on localhost via following command to persist RPA output data. The keys are accessed to the RPA via the env variables:
