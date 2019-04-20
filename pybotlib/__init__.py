@@ -11,7 +11,7 @@ import platform
 import datetime
 import uuid
 import csv
-from exceptions import NoElementsSatisfyConditions
+from pybotlib.exceptions import NoElementsSatisfyConditions
 from time import gmtime, strftime
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
