@@ -27,7 +27,7 @@ Some conveniences  provided are:
 
 ## Getting Started
 
- 0) First download or clone the repository and cd into the directory. Make sure Python27 is installed.
+ 0) First download or clone the repository and cd into the directory. Make sure Python 3.7+ is installed and that python 3.7 is your default python version. You may need to change this on a new machine.
 
  1) Install necessary packages by running the pip command with provided requirements.txt file:
 
