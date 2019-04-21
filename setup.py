@@ -229,14 +229,14 @@ install_reqs = [
 
 setup(
     name="pybotlib",
-    version="0.1.3",
+    version="0.1.4",
     description="Object oriented python RPA library",
     license="MIT",
     long_description=long_desc,
     author="David Katz",
     python_requires='>3.7',
     author_email="davidemmanuelkatz@gmail.com",
-    url="https://github.com/dkatz23238/pybotlib",
+    url="https://github.com/dkatz23238/pybotlib/tree/ubuntu-client-37",
     packages=["pybotlib", "pybotlib.exceptions", "pybotlib.utils"],
     install_requires=install_reqs,
     classifiers=['Operating System :: POSIX',]
