@@ -28,7 +28,10 @@ Some conveniences  provided are:
 ## Getting Started
 
 0) If you are using this branch you can pip install pybotlib from PyPI by running the following command:
-``` python -m pip install pybotlib ```
+
+```
+python -m pip install pybotlib
+```
 
 2) Make sure that Mozilla Firefox is installed on the host machine. Run the provied batch script to install the geckodriver needed to automate web activities.
 
