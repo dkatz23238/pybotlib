@@ -17,6 +17,8 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options as Foptions
+
+
 DIDNOTINIT = "Use .initialize_driver() to instantiate a webdriver session. "
 LOG_FILE_MESSAGE = "Create and initialize logfile using .create_log_file(bot_name) before logging"
 

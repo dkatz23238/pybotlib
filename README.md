@@ -57,14 +57,14 @@ The output data is programmed to be sent to a Minio file server you can run one 
 
 
 Run a minio file server on localhost via following command to persist RPA output data. The keys are accessed to the RPA via the env variables:
-``` 
+```
 mkdir -p $HOME/tmp && cd $HOME/tmp
 mkdir -p data
 docker run -d  -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
 ```
 
 Then follow the steps from Getting Started and run the RPA with following commands:
-``` 
+```
 bash run_RPA.sh
 ```
 
@@ -72,7 +72,7 @@ The example RPA follows a few simple rules that are recomended to be folowed:
 
 0. Sensitive and dynamic data in the form of key values pairs that the RPA may use to access various systems should be stored in enviornment variables and be accessed via the  ``` os.environ ``` method in python.
 
-1. Business input and output data should be decoupled from the RPA itself. The system I recomend to use for data persistance is using cloud file storage providers or hosting your own. Minio is a great self hosted cloud file storage system that you can easily deploy with one simple command. The example RPA needs an active running Minio server up and running, all of the variables needed to access the minio server are stored in env-vars.sh. 
+1. Business input and output data should be decoupled from the RPA itself. The system I recomend to use for data persistance is using cloud file storage providers or hosting your own. Minio is a great self hosted cloud file storage system that you can easily deploy with one simple command. The example RPA needs an active running Minio server up and running, all of the variables needed to access the minio server are stored in env-vars.sh.
 
 2. All execution of RPA should be handled by single bash script called run_RPA.sh and should be able to run without sudo.
 
