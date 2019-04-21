@@ -1,14 +1,14 @@
 from setuptools import setup
 
 #str
-long_desc = open("README.md", mode="r").read()
+long_desc = open("README.rst", mode="r").read()
 #list
 install_reqs = [i.replace("\n", "") for i in open("requirements.txt").readlines()]
 
 
 setup(
     name="pybotlib",
-    version="0.1",
+    version="0.1.1",
     description="Object oriented python RPA library",
     license="MIT",
     long_description=long_desc,
