@@ -27,14 +27,13 @@ Some conveniences  provided are:
 
 ## Getting Started
 
-If you are using this branch you can pip install pybotlib from PyPI by running the following command:
-
+0) If you are using this branch you can pip install pybotlib from PyPI by running the following command:
 ``` python -m pip install pybotlib ```
 
 2) Make sure that Mozilla Firefox is installed on the host machine. Run the provied batch script to install the geckodriver needed to automate web activities.
 
 ```
-sudo bash "get_geckodriver.sh"
+python -c "from pybotlib.utils import get_geckodriver; get_geckodriver();"
 ```
 
 3) You are now ready to use the package. Import the VirtualAgent class with the following code:
