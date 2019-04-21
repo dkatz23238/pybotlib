@@ -27,18 +27,16 @@ Some conveniences  provided are:
 
 ## Getting Started
 
- 0) First download or clone the repository and cd into the directory. Make sure Python 3.7+ is installed and that python 3.7 is your default python version. You may need to change this on a new machine.
-
- 1) Install necessary packages by running the pip command with provided requirements.txt file:
+0) If you are using this branch you can pip install pybotlib from PyPI by running the following command:
 
 ```
-pip install -r requirements.txt
+python -m pip install pybotlib
 ```
 
 2) Make sure that Mozilla Firefox is installed on the host machine. Run the provied batch script to install the geckodriver needed to automate web activities.
 
 ```
-sudo bash "get_geckodriver.sh"
+python -c "from pybotlib.utils import get_geckodriver; get_geckodriver();"
 ```
 
 3) You are now ready to use the package. Import the VirtualAgent class with the following code:
