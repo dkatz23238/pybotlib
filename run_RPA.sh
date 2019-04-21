@@ -6,10 +6,8 @@ export MINIO_OUTPUT_BUCKET_NAME=investigator-rpa-output;
 # Google Sheets Document ID
 export GSHEET_ID=1pBecz5Db9eK0QDR_oePmamdaFtEiCaO69RaE-Ozduko;
 
-# Instantiate enviornment variables
-source env-vars.sh
 # Install reqs
-python setup.py install
+python -m pip install -U pybotlib
 # Get geckodriver
 python -c "from pybotlib.utils import get_geckodriver; get_geckodriver()"
 # Run the RPA
