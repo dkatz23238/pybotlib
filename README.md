@@ -125,7 +125,7 @@ Pybotlib creates a folder called pybotlib_logs under the current User's director
 
 ## Documentation
 
-Docs coming soon. Stay tuned or sign up for our mailing list *here*
+https://pybotlib.readthedocs.io/en/latest
 
 ## License
 
