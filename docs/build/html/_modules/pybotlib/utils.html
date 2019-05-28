@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pybotlib.utils &#8212; pybotlib 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pybotlib.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">email</span>
+<span class="kn">import</span> <span class="nn">email.header</span>
+<span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">imaplib</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">StringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">StringIO</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">email</span> <span class="k">import</span> <span class="n">encoders</span>
+<span class="kn">from</span> <span class="nn">email.mime.base</span> <span class="k">import</span> <span class="n">MIMEBase</span>
+<span class="kn">from</span> <span class="nn">email.mime.multipart</span> <span class="k">import</span> <span class="n">MIMEMultipart</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="k">import</span> <span class="n">MIMEText</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">mkdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">exists</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="k">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">zipfile</span> <span class="k">import</span> <span class="n">ZipFile</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">PIPE</span>
+
+<span class="kn">import</span> <span class="nn">mailparser</span> <span class="k">as</span> <span class="nn">mailparser</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">read_csv</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="k">import</span> <span class="n">get</span>
+<span class="kn">import</span> <span class="nn">pygsheets</span>
+
+
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">PIPE</span>
+
+<span class="kn">from</span> <span class="nn">minio</span> <span class="k">import</span> <span class="n">Minio</span>
+<span class="kn">from</span> <span class="nn">minio.error</span> <span class="k">import</span> <span class="n">ResponseError</span><span class="p">,</span> <span class="n">BucketAlreadyOwnedByYou</span><span class="p">,</span> <span class="n">BucketAlreadyExists</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="get_geckodriver"><a class="viewcode-back" href="../../index.html#pybotlib.utils.get_geckodriver">[docs]</a><span class="k">def</span> <span class="nf">get_geckodriver</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Gets geckodriver from mozilla websites and leaves it in CWD&quot;&quot;&quot;</span>
+
+    <span class="n">commands_1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;wget&quot;</span><span class="p">,</span> <span class="s2">&quot;-nv&quot;</span><span class="p">,</span> <span class="s2">&quot;https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz&quot;</span><span class="p">,]</span>
+    <span class="n">commands_2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tar&quot;</span><span class="p">,</span> <span class="s2">&quot;xvfz&quot;</span><span class="p">,</span> <span class="s2">&quot;geckodriver-v0.23.0-linux64.tar.gz&quot;</span><span class="p">]</span>
+    <span class="n">commands_3</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rm&quot;</span><span class="p">,</span><span class="s2">&quot;geckodriver-v0.23.0-linux64.tar.gz&quot;</span><span class="p">]</span>
+
+    <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">commands_1</span><span class="p">)</span>
+    <span class="n">sc1</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">commands_2</span><span class="p">)</span>
+    <span class="n">sc2</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">commands_3</span><span class="p">)</span>
+    <span class="n">sc3</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sc1</span> <span class="o">==</span> <span class="n">sc2</span> <span class="o">==</span> <span class="n">sc3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Status Code not 0 for geckodriver install!!!&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Geckodriver Install Success&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="check_and_dl_chrome_driver"><a class="viewcode-back" href="../../index.html#pybotlib.utils.check_and_dl_chrome_driver">[docs]</a><span class="k">def</span> <span class="nf">check_and_dl_chrome_driver</span><span class="p">():</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks Windows 10 system for Chrome Driver for use in RPA Automation.</span>
+<span class="sd">    If not found will download the most recent version form google servers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mkdir</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32&quot;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32\chromedriver.exe&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CDrive Check Complete!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://chromedriver.storage.googleapis.com/2.38/chromedriver_win32.zip&#39;</span> <span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+            <span class="n">z</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;c:\chromedriver_win32&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CDrive Check Complete!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32\Disable-Download-Bar_v1.5.crx&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Disable Bar Already In Folder&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">copy</span><span class="p">(</span><span class="s2">&quot;Disable-Download-Bar_v1.5.crx&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32\Disable-Download-Bar_v1.5.crx&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Only Supported For Windows&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="dt_parse"><a class="viewcode-back" href="../../index.html#pybotlib.utils.dt_parse">[docs]</a><span class="k">def</span> <span class="nf">dt_parse</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses out datetime from email msg format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+       <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+           <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span>
+               <span class="n">email</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">parsedate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+           <span class="p">)</span>
+       <span class="p">)</span>
+   <span class="p">)</span></div>
+
+<div class="viewcode-block" id="return_emails_from_IMAP"><a class="viewcode-back" href="../../index.html#pybotlib.utils.return_emails_from_IMAP">[docs]</a><span class="k">def</span> <span class="nf">return_emails_from_IMAP</span><span class="p">(</span><span class="n">email_account</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">email_folder</span><span class="p">,</span> <span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;imap.gmail.com&#39;</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Used to search a specific IMAP email folder and return a list of individual mailparser.MailParser objects.</span>
+<span class="sd">    Will return no values if the login, folder, or search fails. You can replace search_term with other fields such as &quot;UnSeen&quot; or &quot;Seen&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    email_account : str</span>
+<span class="sd">        Email address to read inbox from.</span>
+
+<span class="sd">    password: str</span>
+<span class="sd">        Password for associated email_account.</span>
+
+<span class="sd">    email_folder: str</span>
+<span class="sd">        Which IMAP folder to return emails from.</span>
+
+<span class="sd">    search_term: str, optional</span>
+<span class="sd">        Term that is used to search in email folder. Defaults to all.</span>
+
+<span class="sd">    url: str, optinal</span>
+<span class="sd">        IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        a list of mailparser.MailParser objects</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    list_of_emails = return_emails_from_IMAP(</span>
+<span class="sd">        email_account=&quot;me@me.com&quot;,</span>
+<span class="sd">        password=&quot;psw&quot;,</span>
+<span class="sd">        email_folder=&quot;INBOX&quot;,</span>
+<span class="sd">        search_term=&quot;ALL&quot;,</span>
+<span class="sd">        url=&#39;imap.gmail.com&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">M</span> <span class="o">=</span> <span class="n">imaplib</span><span class="o">.</span><span class="n">IMAP4_SSL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rv</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">email_account</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">imaplib</span><span class="o">.</span><span class="n">IMAP4</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Login Failed. Check Credentials and imap url.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">rv</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">email_folder</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">rv</span> <span class="o">!=</span> <span class="s1">&#39;OK&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email folder not found.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">rv</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">search_term</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">rv</span> <span class="o">!=</span> <span class="s1">&#39;OK&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No unSeen Messages&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="n">rv</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="s1">&#39;(RFC822)&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span> <span class="o">!=</span> <span class="s1">&#39;OK&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR getting message&quot;</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+            <span class="c1">#return</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">email</span><span class="o">.</span><span class="n">message_from_string</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">parsed_msg</span> <span class="o">=</span> <span class="n">mailparser</span><span class="o">.</span><span class="n">parse_from_string</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_msg</span><span class="p">)</span>
+    <span class="n">M</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="save_emails_to_CWD"><a class="viewcode-back" href="../../index.html#pybotlib.utils.save_emails_to_CWD">[docs]</a><span class="k">def</span> <span class="nf">save_emails_to_CWD</span><span class="p">(</span><span class="n">list_of_mails</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes as input a list of mailparser.MailParser objects and saves the emails to current working directory under a folder called pybotlib_emails.</span>
+<span class="sd">    Headers and body are saved as individual txt files inside a folder named after the subject and date recieved.</span>
+<span class="sd">    Attachements are also saved into said folder.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    list_of_mails: list</span>
+<span class="sd">        Takes a list of mailparser.MailParser objects.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    This function will save email as individual folders containing headers.json, body.txt, and any attachments under the CWD/pybotlib_emails.</span>
+
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    list_of_mails = [msg1, msg2, msg3]</span>
+
+<span class="sd">    save_emails_to_CWD(list_of_mails)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;pybotlib_emails&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;pybotlib_emails&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mail</span> <span class="ow">in</span> <span class="n">list_of_mails</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">mail</span><span class="p">)</span> <span class="o">!=</span> <span class="n">mailparser</span><span class="o">.</span><span class="n">mailparser</span><span class="o">.</span><span class="n">MailParser</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;save_emails_to_cwd ony takes in a list of mailparser.MailParser objects&quot;</span><span class="p">)</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="n">mail</span><span class="o">.</span><span class="n">headers_json</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">mail</span><span class="o">.</span><span class="n">body</span>
+        <span class="n">mail_date</span> <span class="o">=</span> <span class="n">dt_parse</span><span class="p">(</span><span class="n">mail</span><span class="o">.</span><span class="n">Date</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2">-%Y %H.%M.%S&quot;</span><span class="p">)</span>
+
+        <span class="n">folder_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;pybotlib_emails&quot;</span><span class="p">,</span> <span class="n">mail</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Message-ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span><span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">mail_date</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder_name</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">folder_name</span><span class="p">)</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_name</span><span class="p">,</span> <span class="s2">&quot;header.json&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">header</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_name</span><span class="p">,</span> <span class="s2">&quot;body.txt&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">mail</span><span class="o">.</span><span class="n">attachments</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">dst</span> <span class="o">=</span>  <span class="n">folder_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;pybotlib_emails&quot;</span><span class="p">,</span> <span class="n">mail</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Message-ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span><span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">mail_date</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">])</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span> <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s2">&quot;payload&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="s2">&quot;content_transfer_encoding&quot;</span><span class="p">]))</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="send_email_with_attachement"><a class="viewcode-back" href="../../index.html#pybotlib.utils.send_email_with_attachement">[docs]</a><span class="k">def</span> <span class="nf">send_email_with_attachement</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">sender_email</span><span class="p">,</span> <span class="n">receiver_email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sends a simple with one attachment from a gmail account.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    subject: str</span>
+<span class="sd">        Subject of the email.</span>
+
+<span class="sd">    body: str</span>
+<span class="sd">        Body of the email.</span>
+
+<span class="sd">    sender_email: str</span>
+<span class="sd">        From field in the email.</span>
+
+<span class="sd">    reciever_email: str</span>
+<span class="sd">        The recipient emaill address.</span>
+
+<span class="sd">    password: str</span>
+<span class="sd">        Password of senders email.</span>
+
+<span class="sd">    filename: str</span>
+<span class="sd">        Absoloute path of file to send in email or the file name if the file is in CWD.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    send_email_with_attachement(</span>
+<span class="sd">        subject=&quot;Hello&quot;,</span>
+<span class="sd">        body=&quot;Hi, hello.&quot;,</span>
+<span class="sd">        sender_email=&quot;me@gmail.com&quot;,</span>
+<span class="sd">        receiver_email=&quot;you@you.com&quot;,</span>
+<span class="sd">        password=&quot;pswd&quot;,</span>
+<span class="sd">        filename=&quot;file.pdf&quot;</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">()</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender_email</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;To&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">receiver_email</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Subject&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Bcc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">receiver_email</span>  <span class="c1"># Recommended for mass emails</span>
+
+    <span class="c1"># Add body to email</span>
+    <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s2">&quot;plain&quot;</span><span class="p">))</span>
+
+
+    <span class="c1"># Open PDF file in binary mode</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">attachment</span><span class="p">:</span>
+        <span class="c1"># Add file as application/octet-stream</span>
+        <span class="c1"># Email client can usually download this automatically as attachment</span>
+        <span class="n">part</span> <span class="o">=</span> <span class="n">MIMEBase</span><span class="p">(</span><span class="s2">&quot;application&quot;</span><span class="p">,</span> <span class="s2">&quot;octet-stream&quot;</span><span class="p">)</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">set_payload</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="c1"># Encode file in ASCII characters to send by email</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="n">encode_base64</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+    <span class="c1"># Add header as key/value pair to attachment part</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span>
+        <span class="s2">&quot;Content-Disposition&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attachment; filename= </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Add attachment to message and convert message to string</span>
+    <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">as_string</span><span class="p">()</span>
+
+    <span class="c1"># Log in to server using secure context and send email</span>
+
+    <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP_SSL</span><span class="p">(</span><span class="s2">&quot;smtp.gmail.com&quot;</span><span class="p">,</span> <span class="mi">465</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">sender_email</span><span class="p">,</span> <span class="n">password</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">235</span><span class="p">:</span>
+
+        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">sender_email</span><span class="p">,</span> <span class="n">receiver_email</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Login Failed!&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="send_HTML_email_with_attachement"><a class="viewcode-back" href="../../index.html#pybotlib.utils.send_HTML_email_with_attachement">[docs]</a><span class="k">def</span> <span class="nf">send_HTML_email_with_attachement</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">sender_email</span><span class="p">,</span> <span class="n">receiver_email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">watermark</span><span class="o">=</span><span class="s2">&quot;pybotlib RPA&quot;</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sends HTML formatted email.</span>
+<span class="sd">    filename can be the filename if the file is in CWD, if not you can use absoloute path.}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    subject: str</span>
+<span class="sd">        Subject of the email.</span>
+
+<span class="sd">    body: str</span>
+<span class="sd">        Body of the email.</span>
+
+<span class="sd">    sender_email: str</span>
+<span class="sd">        From field in the email.</span>
+
+<span class="sd">    reciever_email: str</span>
+<span class="sd">        The recipient emaill address.</span>
+
+<span class="sd">    password: str</span>
+<span class="sd">        Password of senders email.</span>
+
+<span class="sd">    filename: str</span>
+<span class="sd">        Absoloute path of file to send in email or the file name if the file is in CWD.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    send_email_with_attachement(</span>
+<span class="sd">        subject=&quot;Hello&quot;,</span>
+<span class="sd">        body=&quot;Hi, hello.&quot;,</span>
+<span class="sd">        sender_email=&quot;me@gmail.com&quot;,</span>
+<span class="sd">        receiver_email=&quot;you@you.com&quot;,</span>
+<span class="sd">        password=&quot;pswd&quot;,</span>
+<span class="sd">        filename=&quot;file.pdf&quot;</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;!doctype html&gt;</span>
+<span class="s2">    &lt;html&gt;</span>
+<span class="s2">    &lt;head&gt;</span>
+<span class="s2">        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;</span>
+<span class="s2">        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;</span>
+<span class="s2">        &lt;title&gt;pybotlib Transactional Email&lt;/title&gt;</span>
+<span class="s2">        &lt;style&gt;</span>
+<span class="s2">        /* -------------------------------------</span>
+<span class="s2">            INLINED WITH htmlemail.io/inline</span>
+<span class="s2">        ------------------------------------- */</span>
+<span class="s2">        /* -------------------------------------</span>
+<span class="s2">            RESPONSIVE AND MOBILE FRIENDLY STYLES</span>
+<span class="s2">        ------------------------------------- */</span>
+<span class="s2">        @media only screen and (max-width: 620px) {</span>
+<span class="s2">        table[class=body] h1 {</span>
+<span class="s2">            font-size: 28px !important;</span>
+<span class="s2">            margin-bottom: 10px !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] p,</span>
+<span class="s2">                table[class=body] ul,</span>
+<span class="s2">                table[class=body] ol,</span>
+<span class="s2">                table[class=body] td,</span>
+<span class="s2">                table[class=body] span,</span>
+<span class="s2">                table[class=body] a {</span>
+<span class="s2">            font-size: 16px !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .wrapper,</span>
+<span class="s2">                table[class=body] .article {</span>
+<span class="s2">            padding: 10px !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .content {</span>
+<span class="s2">            padding: 0 !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .container {</span>
+<span class="s2">            padding: 0 !important;</span>
+<span class="s2">            width: 100% !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .main {</span>
+<span class="s2">            border-left-width: 0 !important;</span>
+<span class="s2">            border-radius: 0 !important;</span>
+<span class="s2">            border-right-width: 0 !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .btn table {</span>
+<span class="s2">            width: 100% !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .btn a {</span>
+<span class="s2">            width: 100% !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        table[class=body] .img-responsive {</span>
+<span class="s2">            height: auto !important;</span>
+<span class="s2">            max-width: 100% !important;</span>
+<span class="s2">            width: auto !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        }</span>
+
+<span class="s2">        /* -------------------------------------</span>
+<span class="s2">            PRESERVE THESE STYLES IN THE HEAD</span>
+<span class="s2">        ------------------------------------- */</span>
+<span class="s2">        @media all {</span>
+<span class="s2">        .ExternalClass {</span>
+<span class="s2">            width: 100%;</span>
+<span class="s2">        }</span>
+<span class="s2">        .ExternalClass,</span>
+<span class="s2">                .ExternalClass p,</span>
+<span class="s2">                .ExternalClass span,</span>
+<span class="s2">                .ExternalClass font,</span>
+<span class="s2">                .ExternalClass td,</span>
+<span class="s2">                .ExternalClass div {</span>
+<span class="s2">            line-height: 100%;</span>
+<span class="s2">        }</span>
+<span class="s2">        .apple-link a {</span>
+<span class="s2">            color: inherit !important;</span>
+<span class="s2">            font-family: inherit !important;</span>
+<span class="s2">            font-size: inherit !important;</span>
+<span class="s2">            font-weight: inherit !important;</span>
+<span class="s2">            line-height: inherit !important;</span>
+<span class="s2">            text-decoration: none !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        .btn-primary table td:hover {</span>
+<span class="s2">            background-color: #34495e !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        .btn-primary a:hover {</span>
+<span class="s2">            background-color: #34495e !important;</span>
+<span class="s2">            border-color: #34495e !important;</span>
+<span class="s2">        }</span>
+<span class="s2">        }</span>
+<span class="s2">        &lt;/style&gt;</span>
+<span class="s2">    &lt;/head&gt;</span>
+<span class="s2">    &lt;body class=&quot;&quot; style=&quot;background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;&quot;&gt;</span>
+<span class="s2">        &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; class=&quot;body&quot; style=&quot;border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;&quot;&gt;</span>
+<span class="s2">        &lt;tr&gt;</span>
+<span class="s2">            &lt;td style=&quot;font-family: sans-serif; font-size: 14px; vertical-align: top;&quot;&gt;&amp;nbsp;&lt;/td&gt;</span>
+<span class="s2">            &lt;td class=&quot;container&quot; style=&quot;font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;&quot;&gt;</span>
+<span class="s2">            &lt;div class=&quot;content&quot; style=&quot;box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;&quot;&gt;</span>
+
+<span class="s2">                &lt;!-- START CENTERED WHITE CONTAINER --&gt;</span>
+<span class="s2">                &lt;table class=&quot;main&quot; style=&quot;border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;&quot;&gt;</span>
+
+<span class="s2">                &lt;!-- START MAIN CONTENT AREA --&gt;</span>
+<span class="s2">                &lt;tr&gt;</span>
+<span class="s2">                    &lt;td class=&quot;wrapper&quot; style=&quot;font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;&quot;&gt;</span>
+<span class="s2">                    &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style=&quot;border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;&quot;&gt;</span>
+<span class="s2">                        &lt;tr&gt;</span>
+<span class="s2">                        &lt;td style=&quot;font-family: sans-serif; font-size: 14px; vertical-align: top;&quot;&gt;</span>
+<span class="s2">                            &lt;p style=&quot;font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;&quot;&gt;Hi %RECIPIENT%,&lt;/p&gt;</span>
+<span class="s2">                            &lt;p style=&quot;font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;&quot;&gt; %MESSAGE% &lt;/p&gt;</span>
+<span class="s2">                                &lt;/td&gt;</span>
+<span class="s2">                                &lt;/tr&gt;</span>
+<span class="s2">                            &lt;/tbody&gt;</span>
+<span class="s2">                        &lt;/td&gt;</span>
+<span class="s2">                        &lt;/tr&gt;</span>
+<span class="s2">                    &lt;/table&gt;</span>
+<span class="s2">                    &lt;/td&gt;</span>
+<span class="s2">                &lt;/tr&gt;</span>
+
+<span class="s2">                &lt;!-- END MAIN CONTENT AREA --&gt;</span>
+<span class="s2">                &lt;/table&gt;</span>
+
+<span class="s2">                &lt;!-- START FOOTER --&gt;</span>
+<span class="s2">                &lt;div class=&quot;footer&quot; style=&quot;clear: both; Margin-top: 10px; text-align: center; width: 100%;&quot;&gt;</span>
+<span class="s2">                &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style=&quot;border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;&quot;&gt;</span>
+<span class="s2">                    &lt;tr&gt;</span>
+<span class="s2">                    &lt;td class=&quot;content-block&quot; style=&quot;font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;&quot;&gt;</span>
+<span class="s2">                        &lt;span class=&quot;apple-link&quot; style=&quot;color: #999999; font-size: 12px; text-align: center;&quot;&gt; %WATERMARK% &lt;/span&gt;</span>
+
+<span class="s2">                    &lt;/td&gt;</span>
+<span class="s2">                    &lt;/tr&gt;</span>
+<span class="s2">                    &lt;tr&gt;</span>
+<span class="s2">                    &lt;td class=&quot;content-block powered-by&quot; style=&quot;font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;&quot;&gt;</span>
+<span class="s2">                        &lt;a href=&quot;http://htmlemail.io&quot; style=&quot;color: #999999; font-size: 12px; text-align: center; text-decoration: none;&quot;&gt;&lt;/a&gt;.</span>
+<span class="s2">                    &lt;/td&gt;</span>
+<span class="s2">                    &lt;/tr&gt;</span>
+<span class="s2">                &lt;/table&gt;</span>
+<span class="s2">                &lt;/div&gt;</span>
+<span class="s2">                &lt;!-- END FOOTER --&gt;</span>
+
+<span class="s2">            &lt;!-- END CENTERED WHITE CONTAINER --&gt;</span>
+<span class="s2">            &lt;/div&gt;</span>
+<span class="s2">            &lt;/td&gt;</span>
+<span class="s2">            &lt;td style=&quot;font-family: sans-serif; font-size: 14px; vertical-align: top;&quot;&gt;&amp;nbsp;&lt;/td&gt;</span>
+<span class="s2">        &lt;/tr&gt;</span>
+<span class="s2">        &lt;/table&gt;</span>
+<span class="s2">    &lt;/body&gt;</span>
+<span class="s2">    &lt;/html&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;%MESSAGE%&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;%RECIPIENT%&quot;</span><span class="p">,</span> <span class="n">receiver_email</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;%WATERMARK%&quot;</span><span class="p">,</span> <span class="n">watermark</span><span class="p">)</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">()</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sender_email</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;To&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">receiver_email</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Subject&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject</span>
+    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Bcc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">receiver_email</span>  <span class="c1"># Recommended for mass emails</span>
+
+    <span class="c1"># Add body to email</span>
+    <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">))</span>
+
+
+    <span class="c1"># Open PDF file in binary mode</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">attachment</span><span class="p">:</span>
+        <span class="c1"># Add file as application/octet-stream</span>
+        <span class="c1"># Email client can usually download this automatically as attachment</span>
+        <span class="n">part</span> <span class="o">=</span> <span class="n">MIMEBase</span><span class="p">(</span><span class="s2">&quot;application&quot;</span><span class="p">,</span> <span class="s2">&quot;octet-stream&quot;</span><span class="p">)</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">set_payload</span><span class="p">(</span><span class="n">attachment</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="c1"># Encode file in ASCII characters to send by email</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="n">encode_base64</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+    <span class="c1"># Add header as key/value pair to attachment part</span>
+    <span class="n">part</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span>
+        <span class="s2">&quot;Content-Disposition&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;attachment; filename= </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Add attachment to message and convert message to string</span>
+    <span class="n">message</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">as_string</span><span class="p">()</span>
+
+    <span class="c1"># Log in to server using secure context and send email</span>
+
+    <span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP_SSL</span><span class="p">(</span><span class="s2">&quot;smtp.gmail.com&quot;</span><span class="p">,</span> <span class="mi">465</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">server</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">sender_email</span><span class="p">,</span> <span class="n">password</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">235</span><span class="p">:</span>
+
+        <span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">sender_email</span><span class="p">,</span> <span class="n">receiver_email</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Login Failed!&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="pandas_read_google_sheets"><a class="viewcode-back" href="../../index.html#pybotlib.utils.pandas_read_google_sheets">[docs]</a><span class="k">def</span> <span class="nf">pandas_read_google_sheets</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Returns a pandas DataFrame from a spreadsheet in google sheets. Make sure the spreadsheet has a &quot;view&quot; link and only contains one tab of data.</span>
+<span class="sd">        Parameter is signel sheet_id. This function should be used for sheets that have a link enabled to view. For private data use save_csv_from_googlesheets,</span>
+<span class="sd">        This uses a secure JSON credentials file that must be generated in Google Drive.</span>
+<span class="sd">        This is an example of a sheet_id = 1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko&#39;&#39;&#39;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://docs.google.com/spreadsheets/d/</span><span class="si">%s</span><span class="s1">/export?format=csv&#39;</span> <span class="o">%</span> <span class="n">sheet_id</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="save_csv_from_googlesheets"><a class="viewcode-back" href="../../index.html#pybotlib.utils.save_csv_from_googlesheets">[docs]</a><span class="k">def</span> <span class="nf">save_csv_from_googlesheets</span><span class="p">(</span><span class="n">service_file</span><span class="p">,</span> <span class="n">sheet_url</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Save a google sheets table to .csv with name filename. Needs JSON credentials file location, full google sheets URL and filename to be saved.</span>
+<span class="sd">        Google Sheet must be shared with view access to service account listed in JSON credentials file under &#39;client_email&#39;.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            SERVICE_FILE = &quot;./GoogleAccountCredFile-302c895e0b60.json&quot;</span>
+<span class="sd">            SHEET_URL = &quot;https://docs.google.com/spreadsheets/d/1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko&quot;</span>
+<span class="sd">            FILE_NAME = &quot;data&quot;</span>
+
+<span class="sd">            if save_csv_from_googlesheets(SERVICE_FILE, SHEET_URL, FILE_NAME):</span>
+<span class="sd">                print(&quot;File Saved To Disk&quot;)</span>
+
+
+<span class="sd">        Returns True uppon completion else raises and Exception&#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+    <span class="c1">#authorization</span>
+        <span class="n">gc</span> <span class="o">=</span> <span class="n">pygsheets</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">service_file</span><span class="o">=</span><span class="n">service_file</span><span class="p">)</span>
+        <span class="c1"># Open google sheets from URL</span>
+        <span class="n">sh</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">open_by_url</span><span class="p">(</span><span class="n">sheet_url</span><span class="p">)</span>
+        <span class="c1">#select the first sheet</span>
+        <span class="n">wks</span> <span class="o">=</span> <span class="n">sh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">wks</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">e</span></div>
+
+
+<div class="viewcode-block" id="create_minio_bucket"><a class="viewcode-back" href="../../index.html#pybotlib.utils.create_minio_bucket">[docs]</a><span class="k">def</span> <span class="nf">create_minio_bucket</span><span class="p">(</span><span class="n">host_uri</span><span class="p">,</span> <span class="n">minio_access_key</span><span class="p">,</span> <span class="n">minio_secret_key</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Creates a minio bucket to upload files to&#39;&#39;&#39;</span>
+    <span class="n">minioClient</span> <span class="o">=</span> <span class="n">Minio</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">:9000&#39;</span> <span class="o">%</span> <span class="n">host_uri</span><span class="p">,</span>
+                    <span class="n">access_key</span><span class="o">=</span> <span class="n">minio_access_key</span><span class="p">,</span>
+                    <span class="n">secret_key</span><span class="o">=</span> <span class="n">minio_secret_key</span><span class="p">,</span>
+                    <span class="n">secure</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">minioClient</span><span class="o">.</span><span class="n">make_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">BucketAlreadyOwnedByYou</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">except</span> <span class="n">BucketAlreadyExists</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">except</span> <span class="n">ResponseError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="write_file_to_minio_bucket"><a class="viewcode-back" href="../../index.html#pybotlib.utils.write_file_to_minio_bucket">[docs]</a><span class="k">def</span> <span class="nf">write_file_to_minio_bucket</span><span class="p">(</span><span class="n">host_uri</span><span class="p">,</span> <span class="n">minio_access_key</span><span class="p">,</span> <span class="n">minio_secret_key</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Convinience function in order to upload a file to a minio bucket. Filename must exist in current working directory&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;./</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;file must be in current working directory&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">minioClient</span> <span class="o">=</span> <span class="n">Minio</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">:9000&#39;</span> <span class="o">%</span> <span class="n">host_uri</span><span class="p">,</span>
+                        <span class="n">access_key</span><span class="o">=</span> <span class="n">minio_access_key</span><span class="p">,</span>
+                        <span class="n">secret_key</span><span class="o">=</span> <span class="n">minio_secret_key</span><span class="p">,</span>
+                        <span class="n">secure</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">object</span> <span class="o">=</span> <span class="n">minioClient</span><span class="o">.</span><span class="n">fput_object</span><span class="p">(</span>
+                <span class="n">bucket_name</span><span class="o">=</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">object_name</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="s2">&quot;./</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span>
+            <span class="p">)</span>
+            <span class="c1"># print(&quot;MINIO FILE WRITE COMPLETE!&quot;)</span>
+            <span class="c1"># print(object)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">e</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pybotlib</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../pybotlib.html">pybotlib</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, David Katz.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
