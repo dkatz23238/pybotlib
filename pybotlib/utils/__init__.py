@@ -41,7 +41,11 @@ from minio.error import ResponseError, BucketAlreadyOwnedByYou, BucketAlreadyExi
 import os
 
 def get_geckodriver():
-    """ Gets geckodriver from mozilla websites and leaves it in CWD"""
+    """Fetches latest version of geckodriver to automate firefox via the Selenium webdriver.
+
+    This function uses GNU wget. Make sure it is installed on the system before calling get_geckodriver()
+    
+    """
 
     commands_1 = ["wget", "-nv", "https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz",]
     commands_2 = ["tar", "xvfz", "geckodriver-v0.23.0-linux64.tar.gz"]
@@ -60,38 +64,14 @@ def get_geckodriver():
         print("Geckodriver Install Success")
 
 
-
-def check_and_dl_chrome_driver():
-
-    """
-    Checks Windows 10 system for Chrome Driver for use in RPA Automation.
-    If not found will download the most recent version form google servers.
-    """
-
-    if platform.system() == "Windows":
-
-        try:
-            mkdir(r"C:\chromedriver_win32")
-        except:
-            pass
-        if exists(r"C:\chromedriver_win32\chromedriver.exe"):
-            print("CDrive Check Complete!")
-        else:
-            r = get('https://chromedriver.storage.googleapis.com/2.38/chromedriver_win32.zip' , stream=True)
-            z = ZipFile(StringIO.StringIO(r.content))
-            z.extractall(r"c:\chromedriver_win32")
-            print("")
-            print("CDrive Check Complete!")
-        if exists(r"C:\chromedriver_win32\Disable-Download-Bar_v1.5.crx"):
-            print("Disable Bar Already In Folder")
-        else:
-            copy("Disable-Download-Bar_v1.5.crx", r"C:\chromedriver_win32\Disable-Download-Bar_v1.5.crx")
-    else:
-        return Exception("Only Supported For Windows")
-
 def dt_parse(t):
-    """
-    Parses out datetime from email msg format
+    """Parses out datetime from email msg format.
+
+    Args:
+      t(str): t is a string containing an RFC 2822 date, such as "Mon, 20 Nov 1995 19:12:08 -0500".
+
+    Returns:
+      datetime.datetime: A datetime.datetime object.
     """
     return (
        datetime.fromtimestamp(
@@ -103,40 +83,20 @@ def dt_parse(t):
 
 def return_emails_from_IMAP(email_account, password, email_folder, search_term="ALL", url='imap.gmail.com'):
 
-    """
+    """Returns a list of mailparser.MailParser objects from an email address using IMAP.
+    
     Used to search a specific IMAP email folder and return a list of individual mailparser.MailParser objects.
     Will return no values if the login, folder, or search fails. You can replace search_term with other fields such as "UnSeen" or "Seen".
 
-    Parameters
-    ----------
-    email_account : str
-        Email address to read inbox from.
+    Args:
+      email_account(str): Email address to read inbox from in string format.
+      password(str): Password for associated email_account.
+      email_folder(str): Which IMAP folder to return emails from.
+      search_term(str): Term that is used to search in email folder. Defaults to all.
+      url(str): IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.
 
-    password: str
-        Password for associated email_account.
-
-    email_folder: str
-        Which IMAP folder to return emails from.
-
-    search_term: str, optional
-        Term that is used to search in email folder. Defaults to all.
-
-    url: str, optinal
-        IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.
-
-    Returns
-    -------
-    list
-        a list of mailparser.MailParser objects
-
-    Example:
-
-    list_of_emails = return_emails_from_IMAP(
-        email_account="me@me.com",
-        password="psw",
-        email_folder="INBOX",
-        search_term="ALL",
-        url='imap.gmail.com')
+    Returns:
+      list: A list of mailparser.MailParser objects retrieved from the email server.
     """
 
     M = imaplib.IMAP4_SSL(url)
@@ -173,26 +133,17 @@ def return_emails_from_IMAP(email_account, password, email_folder, search_term="
     return response
 
 def save_emails_to_CWD(list_of_mails):
-    """
+    """ Saves a list of mailparser.MailParser objects to CWD.
+
     Takes as input a list of mailparser.MailParser objects and saves the emails to current working directory under a folder called pybotlib_emails.
     Headers and body are saved as individual txt files inside a folder named after the subject and date recieved.
-    Attachements are also saved into said folder.
+    Attachments are also saved into said folder.
 
-    Parameters
-    ----------
-    list_of_mails: list
-        Takes a list of mailparser.MailParser objects.
+    Args:
+      list_of_mails(list): A list of mailparser.MailParser objects.
 
-    Returns
-    -------
-    This function will save email as individual folders containing headers.json, body.txt, and any attachments under the CWD/pybotlib_emails.
-
-
-    Example:
-
-    list_of_mails = [msg1, msg2, msg3]
-
-    save_emails_to_CWD(list_of_mails)
+    Returns:
+      None.
 
     """
 
@@ -231,38 +182,23 @@ def save_emails_to_CWD(list_of_mails):
 
 def send_email_with_attachement(subject, body, sender_email, receiver_email, password, filename):
 
-    """
-    Sends a simple with one attachment from a gmail account.
+    """Sends a simple with one attachment from a gmail account.
 
-    Parameters
-    ----------
-    subject: str
-        Subject of the email.
+    Args:
+      subject(str): Subject of the email.
 
-    body: str
-        Body of the email.
+      body(str): Body of the email.
 
-    sender_email: str
-        From field in the email.
+      sender_email(str): From field in the email.
 
-    reciever_email: str
-        The recipient emaill address.
+      reciever_email(str): The recipient emaill address.
 
-    password: str
-        Password of senders email.
+      password(str): Password of senders email.
 
-    filename: str
-        Absoloute path of file to send in email or the file name if the file is in CWD.
-
-    Example:
-    send_email_with_attachement(
-        subject="Hello",
-        body="Hi, hello.",
-        sender_email="me@gmail.com",
-        receiver_email="you@you.com",
-        password="pswd",
-        filename="file.pdf"
-        )
+      filename(str): Absoloute path of file to send in email or the file name if the file is in CWD.
+    
+    Returns:
+      None.
     """
 
 
@@ -310,39 +246,23 @@ def send_email_with_attachement(subject, body, sender_email, receiver_email, pas
 
 def send_HTML_email_with_attachement(subject, body, sender_email, receiver_email, password, filename, watermark="pybotlib RPA"):
 
-    """
-    Sends HTML formatted email.
-    filename can be the filename if the file is in CWD, if not you can use absoloute path.}
+    """Sends an visually pleasing HTML email with one attachment from a gmail account.
 
-    Parameters
-    ----------
-    subject: str
-        Subject of the email.
+    Args:
+      subject(str): Subject of the email.
 
-    body: str
-        Body of the email.
+      body(str): Body of the email.
 
-    sender_email: str
-        From field in the email.
+      sender_email(str): From field in the email.
 
-    reciever_email: str
-        The recipient emaill address.
+      reciever_email(str): The recipient emaill address.
 
-    password: str
-        Password of senders email.
+      password(str): Password of senders email.
 
-    filename: str
-        Absoloute path of file to send in email or the file name if the file is in CWD.
-
-    Example:
-    send_email_with_attachement(
-        subject="Hello",
-        body="Hi, hello.",
-        sender_email="me@gmail.com",
-        receiver_email="you@you.com",
-        password="pswd",
-        filename="file.pdf"
-        )
+      filename(str): Absoloute path of file to send in email or the file name if the file is in CWD.
+    
+    Returns:
+      None.
     """
     html = """
     <!doctype html>
@@ -534,29 +454,37 @@ def send_HTML_email_with_attachement(subject, body, sender_email, receiver_email
         return
 
 def pandas_read_google_sheets(sheet_id):
-    ''' Returns a pandas DataFrame from a spreadsheet in google sheets. Make sure the spreadsheet has a "view" link and only contains one tab of data.
-        Parameter is signel sheet_id. This function should be used for sheets that have a link enabled to view. For private data use save_csv_from_googlesheets,
-        This uses a secure JSON credentials file that must be generated in Google Drive.
-        This is an example of a sheet_id = 1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko'''
+    """Returns a pandas DataFrame from a spreadsheet in google sheets.
+    Make sure the spreadsheet has a "view" link and only contains one tab of data.
+
+    Args:
+      sheet_id(str): Individual googlesheet ID extracted from URL with view access.
+
+    Returns:
+      pandas.DataFrame: A dataframe with the data from the googlesheets.
+    """
     r = requests.get('https://docs.google.com/spreadsheets/d/%s/export?format=csv' % sheet_id)
     data = r.content
     df = read_csv(BytesIO(data))
     return df
 
 def save_csv_from_googlesheets(service_file, sheet_url, filename):
-    ''' Save a google sheets table to .csv with name filename. Needs JSON credentials file location, full google sheets URL and filename to be saved.
-        Google Sheet must be shared with view access to service account listed in JSON credentials file under 'client_email'.
+    """Save a google sheets table to .csv with name filename.
+    
+    Needs JSON credentials file location, full google sheets URL and filename to be saved.
+    Google Sheet must be shared with view access to service account listed in JSON credentials file under 'client_email'.
 
-        Example:
-            SERVICE_FILE = "./GoogleAccountCredFile-302c895e0b60.json"
-            SHEET_URL = "https://docs.google.com/spreadsheets/d/1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko"
-            FILE_NAME = "data"
+    Args:
+      service_file(str): Path to the google credentials json service file.
+      sheet_url(str): URL of the googlesheet to be downloaded.
+      filename(str): Name of the csv file to be saved without the '.csv'.
+      
+    Returns:
+      True. The csv was saved.
 
-            if save_csv_from_googlesheets(SERVICE_FILE, SHEET_URL, FILE_NAME):
-                print("File Saved To Disk")
-
-
-        Returns True uppon completion else raises and Exception'''
+    Raises:
+      Exception: If the function does not return True.
+    """
     try:
     #authorization
         gc = pygsheets.authorize(service_file=service_file)
@@ -571,7 +499,7 @@ def save_csv_from_googlesheets(service_file, sheet_url, filename):
 
 
 def create_minio_bucket(host_uri, minio_access_key, minio_secret_key, bucket_name):
-    ''' Creates a minio bucket to upload files to'''
+    """Creates a minio bucket."""
     minioClient = Minio('%s:9000' % host_uri,
                     access_key= minio_access_key,
                     secret_key= minio_secret_key,
@@ -586,7 +514,21 @@ def create_minio_bucket(host_uri, minio_access_key, minio_secret_key, bucket_nam
         raise
 
 def write_file_to_minio_bucket(host_uri, minio_access_key, minio_secret_key, bucket_name, filename):
-    ''' Convinience function in order to upload a file to a minio bucket. Filename must exist in current working directory'''
+    """Write a file to a minio bucket.
+
+    Args:
+      host_uri(str): URI to minio instance.
+      minio_access_key(str): Access key.
+      minio_secret_key(str): Secret key.
+      bucket_name(str): Bucket name to save.
+      filename(str): Name of file to save to bucket. Must be in CWD.
+
+    Returns:
+      None.
+
+    Raises:
+      Exception: If bucket does not exist or the file is not found.
+    """
     if not os.path.exists("./%s" % filename):
         raise Exception("file must be in current working directory")
     else:

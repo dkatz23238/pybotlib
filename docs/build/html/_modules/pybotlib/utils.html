@@ -74,7 +74,11 @@
 <span class="kn">import</span> <span class="nn">os</span>
 
 <div class="viewcode-block" id="get_geckodriver"><a class="viewcode-back" href="../../index.html#pybotlib.utils.get_geckodriver">[docs]</a><span class="k">def</span> <span class="nf">get_geckodriver</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Gets geckodriver from mozilla websites and leaves it in CWD&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Fetches latest version of geckodriver to automate firefox via the Selenium webdriver.</span>
+
+<span class="sd">    This function uses GNU wget. Make sure it is installed on the system before calling get_geckodriver()</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">commands_1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;wget&quot;</span><span class="p">,</span> <span class="s2">&quot;-nv&quot;</span><span class="p">,</span> <span class="s2">&quot;https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz&quot;</span><span class="p">,]</span>
     <span class="n">commands_2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tar&quot;</span><span class="p">,</span> <span class="s2">&quot;xvfz&quot;</span><span class="p">,</span> <span class="s2">&quot;geckodriver-v0.23.0-linux64.tar.gz&quot;</span><span class="p">]</span>
@@ -93,38 +97,14 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Geckodriver Install Success&quot;</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="check_and_dl_chrome_driver"><a class="viewcode-back" href="../../index.html#pybotlib.utils.check_and_dl_chrome_driver">[docs]</a><span class="k">def</span> <span class="nf">check_and_dl_chrome_driver</span><span class="p">():</span>
-
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Checks Windows 10 system for Chrome Driver for use in RPA Automation.</span>
-<span class="sd">    If not found will download the most recent version form google servers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">mkdir</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32&quot;</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32\chromedriver.exe&quot;</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CDrive Check Complete!&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://chromedriver.storage.googleapis.com/2.38/chromedriver_win32.zip&#39;</span> <span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
-            <span class="n">z</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;c:\chromedriver_win32&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CDrive Check Complete!&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32\Disable-Download-Bar_v1.5.crx&quot;</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Disable Bar Already In Folder&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">copy</span><span class="p">(</span><span class="s2">&quot;Disable-Download-Bar_v1.5.crx&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;C:\chromedriver_win32\Disable-Download-Bar_v1.5.crx&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Only Supported For Windows&quot;</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="dt_parse"><a class="viewcode-back" href="../../index.html#pybotlib.utils.dt_parse">[docs]</a><span class="k">def</span> <span class="nf">dt_parse</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parses out datetime from email msg format</span>
+    <span class="sd">&quot;&quot;&quot;Parses out datetime from email msg format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      t(str): t is a string containing an RFC 2822 date, such as &quot;Mon, 20 Nov 1995 19:12:08 -0500&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      datetime.datetime: A datetime.datetime object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
        <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
@@ -136,40 +116,20 @@
 
 <div class="viewcode-block" id="return_emails_from_IMAP"><a class="viewcode-back" href="../../index.html#pybotlib.utils.return_emails_from_IMAP">[docs]</a><span class="k">def</span> <span class="nf">return_emails_from_IMAP</span><span class="p">(</span><span class="n">email_account</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">email_folder</span><span class="p">,</span> <span class="n">search_term</span><span class="o">=</span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;imap.gmail.com&#39;</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of mailparser.MailParser objects from an email address using IMAP.</span>
+<span class="sd">    </span>
 <span class="sd">    Used to search a specific IMAP email folder and return a list of individual mailparser.MailParser objects.</span>
 <span class="sd">    Will return no values if the login, folder, or search fails. You can replace search_term with other fields such as &quot;UnSeen&quot; or &quot;Seen&quot;.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    email_account : str</span>
-<span class="sd">        Email address to read inbox from.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      email_account(str): Email address to read inbox from in string format.</span>
+<span class="sd">      password(str): Password for associated email_account.</span>
+<span class="sd">      email_folder(str): Which IMAP folder to return emails from.</span>
+<span class="sd">      search_term(str): Term that is used to search in email folder. Defaults to all.</span>
+<span class="sd">      url(str): IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.</span>
 
-<span class="sd">    password: str</span>
-<span class="sd">        Password for associated email_account.</span>
-
-<span class="sd">    email_folder: str</span>
-<span class="sd">        Which IMAP folder to return emails from.</span>
-
-<span class="sd">    search_term: str, optional</span>
-<span class="sd">        Term that is used to search in email folder. Defaults to all.</span>
-
-<span class="sd">    url: str, optinal</span>
-<span class="sd">        IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    list</span>
-<span class="sd">        a list of mailparser.MailParser objects</span>
-
-<span class="sd">    Example:</span>
-
-<span class="sd">    list_of_emails = return_emails_from_IMAP(</span>
-<span class="sd">        email_account=&quot;me@me.com&quot;,</span>
-<span class="sd">        password=&quot;psw&quot;,</span>
-<span class="sd">        email_folder=&quot;INBOX&quot;,</span>
-<span class="sd">        search_term=&quot;ALL&quot;,</span>
-<span class="sd">        url=&#39;imap.gmail.com&#39;)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      list: A list of mailparser.MailParser objects retrieved from the email server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">M</span> <span class="o">=</span> <span class="n">imaplib</span><span class="o">.</span><span class="n">IMAP4_SSL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
@@ -206,26 +166,17 @@
     <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="save_emails_to_CWD"><a class="viewcode-back" href="../../index.html#pybotlib.utils.save_emails_to_CWD">[docs]</a><span class="k">def</span> <span class="nf">save_emails_to_CWD</span><span class="p">(</span><span class="n">list_of_mails</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Saves a list of mailparser.MailParser objects to CWD.</span>
+
 <span class="sd">    Takes as input a list of mailparser.MailParser objects and saves the emails to current working directory under a folder called pybotlib_emails.</span>
 <span class="sd">    Headers and body are saved as individual txt files inside a folder named after the subject and date recieved.</span>
-<span class="sd">    Attachements are also saved into said folder.</span>
+<span class="sd">    Attachments are also saved into said folder.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    list_of_mails: list</span>
-<span class="sd">        Takes a list of mailparser.MailParser objects.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      list_of_mails(list): A list of mailparser.MailParser objects.</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    This function will save email as individual folders containing headers.json, body.txt, and any attachments under the CWD/pybotlib_emails.</span>
-
-
-<span class="sd">    Example:</span>
-
-<span class="sd">    list_of_mails = [msg1, msg2, msg3]</span>
-
-<span class="sd">    save_emails_to_CWD(list_of_mails)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      None.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -264,38 +215,23 @@
 
 <div class="viewcode-block" id="send_email_with_attachement"><a class="viewcode-back" href="../../index.html#pybotlib.utils.send_email_with_attachement">[docs]</a><span class="k">def</span> <span class="nf">send_email_with_attachement</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">sender_email</span><span class="p">,</span> <span class="n">receiver_email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sends a simple with one attachment from a gmail account.</span>
+    <span class="sd">&quot;&quot;&quot;Sends a simple with one attachment from a gmail account.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    subject: str</span>
-<span class="sd">        Subject of the email.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      subject(str): Subject of the email.</span>
 
-<span class="sd">    body: str</span>
-<span class="sd">        Body of the email.</span>
+<span class="sd">      body(str): Body of the email.</span>
 
-<span class="sd">    sender_email: str</span>
-<span class="sd">        From field in the email.</span>
+<span class="sd">      sender_email(str): From field in the email.</span>
 
-<span class="sd">    reciever_email: str</span>
-<span class="sd">        The recipient emaill address.</span>
+<span class="sd">      reciever_email(str): The recipient emaill address.</span>
 
-<span class="sd">    password: str</span>
-<span class="sd">        Password of senders email.</span>
+<span class="sd">      password(str): Password of senders email.</span>
 
-<span class="sd">    filename: str</span>
-<span class="sd">        Absoloute path of file to send in email or the file name if the file is in CWD.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">    send_email_with_attachement(</span>
-<span class="sd">        subject=&quot;Hello&quot;,</span>
-<span class="sd">        body=&quot;Hi, hello.&quot;,</span>
-<span class="sd">        sender_email=&quot;me@gmail.com&quot;,</span>
-<span class="sd">        receiver_email=&quot;you@you.com&quot;,</span>
-<span class="sd">        password=&quot;pswd&quot;,</span>
-<span class="sd">        filename=&quot;file.pdf&quot;</span>
-<span class="sd">        )</span>
+<span class="sd">      filename(str): Absoloute path of file to send in email or the file name if the file is in CWD.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">      None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
@@ -343,39 +279,23 @@
 
 <div class="viewcode-block" id="send_HTML_email_with_attachement"><a class="viewcode-back" href="../../index.html#pybotlib.utils.send_HTML_email_with_attachement">[docs]</a><span class="k">def</span> <span class="nf">send_HTML_email_with_attachement</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">sender_email</span><span class="p">,</span> <span class="n">receiver_email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">watermark</span><span class="o">=</span><span class="s2">&quot;pybotlib RPA&quot;</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Sends HTML formatted email.</span>
-<span class="sd">    filename can be the filename if the file is in CWD, if not you can use absoloute path.}</span>
+    <span class="sd">&quot;&quot;&quot;Sends an visually pleasing HTML email with one attachment from a gmail account.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    subject: str</span>
-<span class="sd">        Subject of the email.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      subject(str): Subject of the email.</span>
 
-<span class="sd">    body: str</span>
-<span class="sd">        Body of the email.</span>
+<span class="sd">      body(str): Body of the email.</span>
 
-<span class="sd">    sender_email: str</span>
-<span class="sd">        From field in the email.</span>
+<span class="sd">      sender_email(str): From field in the email.</span>
 
-<span class="sd">    reciever_email: str</span>
-<span class="sd">        The recipient emaill address.</span>
+<span class="sd">      reciever_email(str): The recipient emaill address.</span>
 
-<span class="sd">    password: str</span>
-<span class="sd">        Password of senders email.</span>
+<span class="sd">      password(str): Password of senders email.</span>
 
-<span class="sd">    filename: str</span>
-<span class="sd">        Absoloute path of file to send in email or the file name if the file is in CWD.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">    send_email_with_attachement(</span>
-<span class="sd">        subject=&quot;Hello&quot;,</span>
-<span class="sd">        body=&quot;Hi, hello.&quot;,</span>
-<span class="sd">        sender_email=&quot;me@gmail.com&quot;,</span>
-<span class="sd">        receiver_email=&quot;you@you.com&quot;,</span>
-<span class="sd">        password=&quot;pswd&quot;,</span>
-<span class="sd">        filename=&quot;file.pdf&quot;</span>
-<span class="sd">        )</span>
+<span class="sd">      filename(str): Absoloute path of file to send in email or the file name if the file is in CWD.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">      None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    &lt;!doctype html&gt;</span>
@@ -567,29 +487,37 @@
         <span class="k">return</span></div>
 
 <div class="viewcode-block" id="pandas_read_google_sheets"><a class="viewcode-back" href="../../index.html#pybotlib.utils.pandas_read_google_sheets">[docs]</a><span class="k">def</span> <span class="nf">pandas_read_google_sheets</span><span class="p">(</span><span class="n">sheet_id</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Returns a pandas DataFrame from a spreadsheet in google sheets. Make sure the spreadsheet has a &quot;view&quot; link and only contains one tab of data.</span>
-<span class="sd">        Parameter is signel sheet_id. This function should be used for sheets that have a link enabled to view. For private data use save_csv_from_googlesheets,</span>
-<span class="sd">        This uses a secure JSON credentials file that must be generated in Google Drive.</span>
-<span class="sd">        This is an example of a sheet_id = 1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Returns a pandas DataFrame from a spreadsheet in google sheets.</span>
+<span class="sd">    Make sure the spreadsheet has a &quot;view&quot; link and only contains one tab of data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      sheet_id(str): Individual googlesheet ID extracted from URL with view access.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      pandas.DataFrame: A dataframe with the data from the googlesheets</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://docs.google.com/spreadsheets/d/</span><span class="si">%s</span><span class="s1">/export?format=csv&#39;</span> <span class="o">%</span> <span class="n">sheet_id</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="save_csv_from_googlesheets"><a class="viewcode-back" href="../../index.html#pybotlib.utils.save_csv_from_googlesheets">[docs]</a><span class="k">def</span> <span class="nf">save_csv_from_googlesheets</span><span class="p">(</span><span class="n">service_file</span><span class="p">,</span> <span class="n">sheet_url</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Save a google sheets table to .csv with name filename. Needs JSON credentials file location, full google sheets URL and filename to be saved.</span>
-<span class="sd">        Google Sheet must be shared with view access to service account listed in JSON credentials file under &#39;client_email&#39;.</span>
+    <span class="sd">&quot;&quot;&quot;Save a google sheets table to .csv with name filename.</span>
+<span class="sd">    </span>
+<span class="sd">    Needs JSON credentials file location, full google sheets URL and filename to be saved.</span>
+<span class="sd">    Google Sheet must be shared with view access to service account listed in JSON credentials file under &#39;client_email&#39;.</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">            SERVICE_FILE = &quot;./GoogleAccountCredFile-302c895e0b60.json&quot;</span>
-<span class="sd">            SHEET_URL = &quot;https://docs.google.com/spreadsheets/d/1pBecz5Db9eK0QDR_oePmamgaFtJiCaO69RaE-Ozduko&quot;</span>
-<span class="sd">            FILE_NAME = &quot;data&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">      service_file(str): Path to the google credentials json service file.</span>
+<span class="sd">      sheet_url(str): URL of the googlesheet to be downloaded.</span>
+<span class="sd">      filename(str): Name of the csv file to be saved without the &#39;.csv&#39;.</span>
+<span class="sd">      </span>
+<span class="sd">    Returns:</span>
+<span class="sd">      True. The csv was saved.</span>
 
-<span class="sd">            if save_csv_from_googlesheets(SERVICE_FILE, SHEET_URL, FILE_NAME):</span>
-<span class="sd">                print(&quot;File Saved To Disk&quot;)</span>
-
-
-<span class="sd">        Returns True uppon completion else raises and Exception&#39;&#39;&#39;</span>
+<span class="sd">    Raises:</span>
+<span class="sd">      Exception: If the function does not return True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
     <span class="c1">#authorization</span>
         <span class="n">gc</span> <span class="o">=</span> <span class="n">pygsheets</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="n">service_file</span><span class="o">=</span><span class="n">service_file</span><span class="p">)</span>
@@ -604,7 +532,7 @@
 
 
 <div class="viewcode-block" id="create_minio_bucket"><a class="viewcode-back" href="../../index.html#pybotlib.utils.create_minio_bucket">[docs]</a><span class="k">def</span> <span class="nf">create_minio_bucket</span><span class="p">(</span><span class="n">host_uri</span><span class="p">,</span> <span class="n">minio_access_key</span><span class="p">,</span> <span class="n">minio_secret_key</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Creates a minio bucket to upload files to&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Creates a minio bucket.&quot;&quot;&quot;</span>
     <span class="n">minioClient</span> <span class="o">=</span> <span class="n">Minio</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">:9000&#39;</span> <span class="o">%</span> <span class="n">host_uri</span><span class="p">,</span>
                     <span class="n">access_key</span><span class="o">=</span> <span class="n">minio_access_key</span><span class="p">,</span>
                     <span class="n">secret_key</span><span class="o">=</span> <span class="n">minio_secret_key</span><span class="p">,</span>
@@ -619,7 +547,21 @@
         <span class="k">raise</span></div>
 
 <div class="viewcode-block" id="write_file_to_minio_bucket"><a class="viewcode-back" href="../../index.html#pybotlib.utils.write_file_to_minio_bucket">[docs]</a><span class="k">def</span> <span class="nf">write_file_to_minio_bucket</span><span class="p">(</span><span class="n">host_uri</span><span class="p">,</span> <span class="n">minio_access_key</span><span class="p">,</span> <span class="n">minio_secret_key</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Convinience function in order to upload a file to a minio bucket. Filename must exist in current working directory&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Write a file to a minio bucket.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      host_uri(str): URI to minio instance.</span>
+<span class="sd">      minio_access_key(str): Access key.</span>
+<span class="sd">      minio_secret_key(str): Secret key.</span>
+<span class="sd">      bucket_name(str): Bucket name to save.</span>
+<span class="sd">      filename(str): Name of file to save to bucket. Must be in CWD.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      None.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      Exception: If bucket does not exist or the file is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;./</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;file must be in current working directory&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
