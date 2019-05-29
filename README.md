@@ -2,7 +2,9 @@
 ![pybotlib-image](https://github.com/dkatz23238/pybotlib/raw/master/img/pybotlib.png)
 
 # What is pybotlib?
-pybotlib is a high level library for creating business oriented Robotic Process Automations using Python.
+```pybotlib``` is a high level library for creating business oriented Robotic Process Automations using Python.
+
+Please refer to the docs for more details: https://pybotlib.readthedocs.io/en/latest/intro.html
 
 This branch is developed for Python 3.7+ and Linux/Ubuntu.
 
