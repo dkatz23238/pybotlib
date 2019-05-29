@@ -2,9 +2,12 @@
 ![pybotlib-image](/img/pybotlib.png)
 
 # What is ```pybotlib```?
-```pybotlib``` is a high level library for creating business oriented Robotic Process Automations using Python 2.7.15.
+ ```pybotlib``` is a python library for developing Robotic Process Automation projects easily with python primarily on Linux. It contains the code for a central object that will maintain the state and behavior of the RPA. The focus of the project is to accelerate RPA development at scale using open source technology. The package is split into two parts the pybotlib.VirtualAgent object that will control the overall behavior of your RPA as well as pybotlib.utils that contain many useful functions for RPA developmet purposes. Check out the API Documentation for more details. The project is centered around open technologies and the believe that the future of digital transformation across business is rooted in a shared knowledge economy.
+
+Please refer to the documentation for more details: https://pybotlib.readthedocs.io/en/latest/intro.html
+
 The master branch of pybotlib is developed to run on Windows 10.
-In order to use pybotlib with Linux refer to the ubuntu-client branch.
+In order to use pybotlib with Linux refer to the ubuntu-client branch. You can install via pip using linux.
 
 Aimed at outperforming and outcosting closed sourced solutions such as Automation Anywhere or Blueprism, ```pybotlib``` consists of a central wrapper around the selenium webdriver exposing highly customized methods and functions through an efficient and easy to use API.
 
