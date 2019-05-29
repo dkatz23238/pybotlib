@@ -9,7 +9,7 @@ from shutil import rmtree as removeDirectoryAndContents
 from shutil import make_archive
 from pybotlib import VirtualAgent
 from pandas import DataFrame, read_excel, read_csv
-from pybotlib.utils import check_and_dl_chrome_driver, pandas_read_google_sheets
+from pybotlib.utils import  pandas_read_google_sheets
 from os.path import join
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import ElementNotVisibleException

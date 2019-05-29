@@ -1,0 +1,15 @@
+numpy
+selenium
+pandas
+requests
+lxml
+html5lib
+xlrd
+openpyxl
+mail-parser
+pygsheets
+minio
+BeautifulSoup4
+python3-xlib
+Xlib
+PyAutoGUI==0.9.39
