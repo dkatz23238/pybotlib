@@ -13,3 +13,4 @@ BeautifulSoup4
 python3-xlib
 Xlib
 PyAutoGUI==0.9.39
+sphinxcontrib-napoleon

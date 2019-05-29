@@ -1,34 +1,150 @@
 
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pybotlib &mdash; pybotlib 0.0.1 documentation</title>
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>pybotlib &#8212; pybotlib 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="../index.html" class="icon icon-home"> pybotlib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#module-pybotlib.utils">pybotlib.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html#module-pybotlib.exceptions">pybotlib.exceptions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pybotlib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>pybotlib</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for pybotlib</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/local/bin/python</span>
@@ -55,22 +171,17 @@
 <span class="n">DIDNOTINIT</span> <span class="o">=</span> <span class="s2">&quot;Use .initialize_driver() to instantiate a webdriver session. &quot;</span>
 <span class="n">LOG_FILE_MESSAGE</span> <span class="o">=</span> <span class="s2">&quot;Create and initialize logfile using .create_log_file(bot_name) before logging&quot;</span>
 
-<div class="viewcode-block" id="generate_js"><a class="viewcode-back" href="../index.html#pybotlib.generate_js">[docs]</a><span class="k">def</span> <span class="nf">generate_js</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">atr</span><span class="p">,</span> <span class="n">evalString</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates js string for web element searching.</span>
+<div class="viewcode-block" id="generate_js"><a class="viewcode-back" href="../api.html#pybotlib.generate_js">[docs]</a><span class="k">def</span> <span class="nf">generate_js</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">atr</span><span class="p">,</span> <span class="n">evalString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generates js string for web element searching.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    tag: str</span>
-<span class="sd">        HTML tag to search for.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      tag(str): HTML tag to search for.</span>
+<span class="sd">      atr(str): HTML attribute for which to evaluate when searching the DOM.</span>
+<span class="sd">      evalString(str): Used to determine if attribute of HTML is element is equal to this string.</span>
 
-<span class="sd">    atr: str</span>
-<span class="sd">        HTML attribute for which to evaluate when searching the DOM.</span>
-
-<span class="sd">    evalString: str</span>
-<span class="sd">        Used to determine if attribute of HTML is element is equal to this string.</span>
-
-
+<span class="sd">    Returns:</span>
+<span class="sd">      str: Javascript code to loop through HTML elements and find a subset satisfying a specific evaluated condition.</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">js</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    function find_by_tag_and_attr(tag, atr, evalString) {</span>
@@ -88,43 +199,25 @@
 <span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">atr</span><span class="p">,</span> <span class="n">evalString</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">js</span></div>
 
-<div class="viewcode-block" id="VirtualAgent"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent">[docs]</a><span class="k">class</span> <span class="nc">VirtualAgent</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates an instance of RPA object:</span>
+<div class="viewcode-block" id="VirtualAgent"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent">[docs]</a><span class="k">class</span> <span class="nc">VirtualAgent</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Core class of pybotlib. Creates an &#39;RPA&#39; object for business process automation.</span>
 
 <span class="sd">    RPA objects can be used to create a virtual</span>
 <span class="sd">    assistant that will cary out a series of event-based</span>
-<span class="sd">    or stricly scheduled taks.</span>
+<span class="sd">    or strictly scheduled tasks.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    bot_name: str</span>
-<span class="sd">        Name of the RPA. Used for logging and identification purposes.</span>
+<span class="sd">    It is always recommended to provide a firefox path to have cookies and preferences persisted.</span>
 
-<span class="sd">    downloads_directory: str</span>
-<span class="sd">        Name of the subfolder to which all file downloads from the internet will be downloaded to.</span>
-
-<span class="sd">    df: Pandas.DataFrame, optional</span>
-<span class="sd">        Used to embed a table in the object if needed.</span>
-
-<span class="sd">    firefoxProfile: str, optional</span>
-<span class="sd">        Specific name of the ChromeProfile subfolder to use when using the google chrome driver. Usefull to retain cookies and other web based data.</span>
-<span class="sd">        Profiles can be found under: &quot;~/.mozilla/firefox/profiles.ini&quot;</span>
-
-<span class="sd">    Example:</span>
-
-<span class="sd">    human_resources_bot = VirtualAgent(bot_name=&quot;HR_bot&quot;, downloads_directory=&quot;timesheets&quot;)</span>
-<span class="sd">    human_resources_bot.create_log_file()</span>
-<span class="sd">    human_resources_bot.initialize_driver()</span>
-<span class="sd">    human_resources_bot.log(&quot;WebDriver Initiated&quot;)</span>
-
-<span class="sd">                    ... ... ...</span>
-
-<span class="sd">    Keyword arguments:</span>
-
-<span class="sd">    downloads_directory = Directory within downloads</span>
-<span class="sd">    folder that the RPA&#39;s chromedriver will download too.</span>
-<span class="sd">    Usefull to identify all files downloaded by specific RPA bot.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      bot_name(str): Name of the RPA. Used for logging and identification purposes.</span>
+<span class="sd">      downloads_directory(str): Name of the subfolder to which all file downloads from the internet will be downloaded to.</span>
+<span class="sd">      df(Pandas.DataFrame, optional): Used to embed a table within the VirtualAgent object and store call it via VirtualAgent.df</span>
+<span class="sd">      firefoxProfile(str, optional): Specific name of the Firefox profile settings subfolder to use when using the geckodriver.</span>
+<span class="sd">        Usefull to retain cookies and other web based data. It is also very usefull to store specific accepted settings such as MIME types</span>
+<span class="sd">        of resources you don&#39;t want to be prompted to download (direct download). By default the VirtualAgent will include most MIME file types to</span>
+<span class="sd">        directly download them on the host machine without prompting. Profiles are found under: &quot;~/.mozilla/firefox/profiles.ini&quot;.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      pybotlib.VirtualAgent: An instance of VirtualAgent ready to be used and deployed to automate business processes.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bot_name</span><span class="p">,</span><span class="n">downloads_directory</span><span class="p">,</span><span class="n">df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">firefoxProfile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -178,9 +271,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">uid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logfile_path</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="VirtualAgent.create_log_file"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.create_log_file">[docs]</a>    <span class="k">def</span> <span class="nf">create_log_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a log csv under &quot;./pybotlib_logs&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.create_log_file"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.create_log_file">[docs]</a>    <span class="k">def</span> <span class="nf">create_log_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a log csv under &quot;./pybotlib_logs&quot;.</span>
+
 <span class="sd">        You can log transactional or execution logs once the file has been created.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bot_name</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_name</span>
@@ -232,17 +325,15 @@
             <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logfile_row_counter</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.log"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;transaction&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Logs a message to the currently active log file</span>
+<div class="viewcode-block" id="VirtualAgent.log"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;transaction&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Logs a message to the currently active log file.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        message : str</span>
-<span class="sd">            Message to be logged.</span>
-<span class="sd">        tag: str</span>
-<span class="sd">            Tag assoacited to message. Defaults to &quot;transactional&quot;</span>
+<span class="sd">        Used to log messages to the currently active log file.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">          message(str): Message to be logged.            </span>
+<span class="sd">          tag(str, optional): Tag associated to message. Defaults to &quot;transactional&quot;.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logfile_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">LOG_FILE_MESSAGE</span><span class="p">)</span>
@@ -268,8 +359,12 @@
             <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logfile_row_counter</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.log_bot_completion"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.log_bot_completion">[docs]</a>    <span class="k">def</span> <span class="nf">log_bot_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Logs that the RPA has sucesfully completed. To be used at the very end of the RPA&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.log_bot_completion"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.log_bot_completion">[docs]</a>    <span class="k">def</span> <span class="nf">log_bot_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log completion of RPA.</span>
+<span class="sd">        </span>
+<span class="sd">        Logs that the RPA has successfully completed. To be used at the very end of the RPA.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logfile_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">LOG_FILE_MESSAGE</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -293,66 +388,73 @@
             <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logfile_row_counter</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.set_DataFrame"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.set_DataFrame">[docs]</a>    <span class="k">def</span> <span class="nf">set_DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Setter for a pandas DataFrame &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.set_DataFrame"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.set_DataFrame">[docs]</a>    <span class="k">def</span> <span class="nf">set_DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter for a pandas.DataFrame.</span>
+<span class="sd">        Args:</span>
+<span class="sd">          df(pandas.DataFrame): Embed a dataframe within the RPA after instantiation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.initialize_driver"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.initialize_driver">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_driver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Inits a new Chrome driver session to interact with applications through the web. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.initialize_driver"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.initialize_driver">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_driver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instantiates a geckodriver firefox instance.</span>
+<span class="sd">        </span>
+<span class="sd">        This method is used to initialize a webdriver instance to automate browser based tasks.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">         FileNotFoundError: If the geckodriver is not in CWD. </span>
+<span class="sd">           You can use pybotlib.utils.get_geckodriver() to download and place it in the CWD.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">(</span>
             <span class="n">executable_path</span><span class="o">=</span><span class="s2">&quot;./geckodriver&quot;</span><span class="p">,</span>
             <span class="n">firefox_profile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fprefs</span><span class="p">,</span>
             <span class="n">firefox_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fops</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.get"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Directs the Chrome driver to a URL&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.get"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Access a website via the browser.</span>
+<span class="sd">        </span>
+<span class="sd">        Given a URL the VirtualAgent will navigate to this website via the webdriver.</span>
+<span class="sd">        The webdriver must be instantited and running by using the initialize_driver method.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">          Exception: If no driver is initialized.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">DIDNOTINIT</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.use_javascript"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.use_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">use_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Executes javascript code into the current running webpage. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.use_javascript"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.use_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">use_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Executes javascript code into the current running webpage.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">          Exception: If no driver is initialized.        </span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">DIDNOTINIT</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="n">script</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="VirtualAgent.find_by_tag_and_attr"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.find_by_tag_and_attr">[docs]</a>    <span class="k">def</span> <span class="nf">find_by_tag_and_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">evaluation_string</span><span class="p">,</span> <span class="n">sleep_secs</span><span class="p">,</span> <span class="n">return_many</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.find_by_tag_and_attr"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.find_by_tag_and_attr">[docs]</a>    <span class="k">def</span> <span class="nf">find_by_tag_and_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">evaluation_string</span><span class="p">,</span> <span class="n">sleep_secs</span><span class="p">,</span> <span class="n">return_many</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns an Selenium webelement object.</span>
+
 <span class="sd">        Usefull function to scan a web site for elements that satisfy specific conditions.</span>
-<span class="sd">        This function is accelerated with javascript.</span>
+<span class="sd">        This function is accelerated with javascript. For example:</span>
+<span class="sd">        ``my_bot.find_by_tag_and_attr(&quot;a&quot;,&quot;class&quot;,&quot;special_class&quot;,0.2)``</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tag : str</span>
-<span class="sd">            HTML tag to begin search for. If the element we seek is an &lt;input&gt; we would pass the argument &quot;input&quot;.</span>
-
-<span class="sd">        attribute: str</span>
-<span class="sd">            Which attribute of the HTML element do we evaluate in order to interact with a webpage.</span>
+<span class="sd">        Args:</span>
+<span class="sd">          tag(str): HTML tag to begin search for. If the element we seek is an &lt;input&gt; we would pass the argument &quot;input&quot;.</span>
+<span class="sd">          attribute(str): Which attribute of the HTML element do we evaluate in order to interact with a webpage. </span>
 <span class="sd">            To name a few: &quot;class&quot;, &quot;id&quot;, or &quot;placeholder&quot;, are all possible examples.</span>
-
-<span class="sd">        evaluation_string: str</span>
-<span class="sd">            What text should we evaluate when searching the elements on the page. If our attribute is &quot;id&quot; and</span>
+<span class="sd">          evaluation_string(str): What text should we evaluate when searching the elements on the page. If our attribute is &quot;id&quot; and</span>
 <span class="sd">            evaluation string is &quot;001&quot; we will reduce our search the the elements that id == &quot;001&quot;.</span>
+<span class="sd">          sleep_secs(float): How many seconds to sleep before executing search. Used to contemplate for slow webpages</span>
+<span class="sd">          return_many(bool, optional): Should the method return a list or an individual element</span>
 
-<span class="sd">        sleep_secs: float</span>
-<span class="sd">            How many seconds to sleep before executing search</span>
-
-<span class="sd">        return_many: bool, optional</span>
-<span class="sd">            Should the method return a list or an invidiual element</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        ----------</span>
-<span class="sd">        list or selenium.webdriver.remote.webelement</span>
-<span class="sd">            Either returns a list of webelement objects or an individual webelement object depending on the return_many argument.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        my_bot.find_by_tag_and_attr(</span>
-<span class="sd">            tag=&quot;a&quot;,</span>
-<span class="sd">            attribute=&quot;class&quot;,</span>
-<span class="sd">            evalutaion_string=&quot;special_class&quot;,</span>
-<span class="sd">            sleep_secs=0.2)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list or selenium.webdriver.remote.webelement: Either returns a list of webelement objects or an individual </span>
+<span class="sd">              webelement object depending on the return_many argument.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -368,71 +470,49 @@
                     <span class="k">return</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">NoElementsSatisfyConditions</span><span class="p">(</span><span class="s2">&quot;No elements found satisfying conditions!&quot;</span><span class="p">)</span></div>
-<div class="viewcode-block" id="VirtualAgent.quit_driver"><a class="viewcode-back" href="../index.html#pybotlib.VirtualAgent.quit_driver">[docs]</a>    <span class="k">def</span> <span class="nf">quit_driver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Quits out of the web driver.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VirtualAgent.quit_driver"><a class="viewcode-back" href="../api.html#pybotlib.VirtualAgent.quit_driver">[docs]</a>    <span class="k">def</span> <span class="nf">quit_driver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Quits out of the web driver.&quot;&quot;&quot;</span>
         <span class="c1">#self.driver.close()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 </pre></div>
 
+           </div>
+           
           </div>
-          
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">pybotlib</a></h1>
+          <footer>
+  
 
+  <hr/>
 
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, David Katz
 
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
+</footer>
 
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2019, David Katz.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-    </div>
 
-    
+    </section>
 
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
     
-  </body>
+   
+
+</body>
 </html>

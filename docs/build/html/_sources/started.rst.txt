@@ -1,0 +1,6 @@
+Getting Started
+===============
+
+Open, scalable, distributed processing is the future of computing and RPA's is general. ``pybotlib`` considers these factors as key to its development philosophy.
+
+To specifically develop RPAs for scale deployments on any infrastructure follow the tutorial provided here: https://github.com/dkatz23238/pybotlib-tutorial

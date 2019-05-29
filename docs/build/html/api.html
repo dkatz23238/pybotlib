@@ -1,0 +1,557 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Documentation &mdash; pybotlib 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Getting Started" href="started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pybotlib
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-pybotlib.utils">pybotlib.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-pybotlib.exceptions">pybotlib.exceptions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pybotlib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pybotlib">
+<span id="api-documentation"></span><h1>API Documentation<a class="headerlink" href="#module-pybotlib" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pybotlib.VirtualAgent">
+<em class="property">class </em><code class="descclassname">pybotlib.</code><code class="descname">VirtualAgent</code><span class="sig-paren">(</span><em>bot_name</em>, <em>downloads_directory</em>, <em>df=None</em>, <em>firefoxProfile=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Core class of pybotlib. Creates an ‘RPA’ object for business process automation.</p>
+<p>RPA objects can be used to create a virtual
+assistant that will cary out a series of event-based
+or strictly scheduled tasks.</p>
+<p>It is always recommended to provide a firefox path to have cookies and preferences persisted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bot_name</strong> (<em>str</em>) – Name of the RPA. Used for logging and identification purposes.</p></li>
+<li><p><strong>downloads_directory</strong> (<em>str</em>) – Name of the subfolder to which all file downloads from the internet will be downloaded to.</p></li>
+<li><p><strong>df</strong> (<em>Pandas.DataFrame</em><em>, </em><em>optional</em>) – Used to embed a table within the VirtualAgent object and store call it via VirtualAgent.df</p></li>
+<li><p><strong>firefoxProfile</strong> (<em>str</em><em>, </em><em>optional</em>) – Specific name of the Firefox profile settings subfolder to use when using the geckodriver.
+Usefull to retain cookies and other web based data. It is also very usefull to store specific accepted settings such as MIME types
+of resources you don’t want to be prompted to download (direct download). By default the VirtualAgent will include most MIME file types to
+directly download them on the host machine without prompting. Profiles are found under: “~/.mozilla/firefox/profiles.ini”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of VirtualAgent ready to be used and deployed to automate business processes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pybotlib.VirtualAgent" title="pybotlib.VirtualAgent">pybotlib.VirtualAgent</a></p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.create_log_file">
+<code class="descname">create_log_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.create_log_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.create_log_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a log csv under “./pybotlib_logs”.</p>
+<p>You can log transactional or execution logs once the file has been created.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.find_by_tag_and_attr">
+<code class="descname">find_by_tag_and_attr</code><span class="sig-paren">(</span><em>tag</em>, <em>attribute</em>, <em>evaluation_string</em>, <em>sleep_secs</em>, <em>return_many=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.find_by_tag_and_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.find_by_tag_and_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an Selenium webelement object.</p>
+<p>Usefull function to scan a web site for elements that satisfy specific conditions.
+This function is accelerated with javascript. For example:
+<code class="docutils literal notranslate"><span class="pre">my_bot.find_by_tag_and_attr(&quot;a&quot;,&quot;class&quot;,&quot;special_class&quot;,0.2)</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – HTML tag to begin search for. If the element we seek is an &lt;input&gt; we would pass the argument “input”.</p></li>
+<li><p><strong>attribute</strong> (<em>str</em>) – Which attribute of the HTML element do we evaluate in order to interact with a webpage.
+To name a few: “class”, “id”, or “placeholder”, are all possible examples.</p></li>
+<li><p><strong>evaluation_string</strong> (<em>str</em>) – What text should we evaluate when searching the elements on the page. If our attribute is “id” and
+evaluation string is “001” we will reduce our search the the elements that id == “001”.</p></li>
+<li><p><strong>sleep_secs</strong> (<em>float</em>) – How many seconds to sleep before executing search. Used to contemplate for slow webpages</p></li>
+<li><p><strong>return_many</strong> (<em>bool</em><em>, </em><em>optional</em>) – Should the method return a list or an individual element</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Either returns a list of webelement objects or an individual</dt><dd><p>webelement object depending on the return_many argument.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list or selenium.webdriver.remote.webelement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access a website via the browser.</p>
+<p>Given a URL the VirtualAgent will navigate to this website via the webdriver.
+The webdriver must be instantited and running by using the initialize_driver method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – If no driver is initialized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.initialize_driver">
+<code class="descname">initialize_driver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.initialize_driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.initialize_driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a geckodriver firefox instance.</p>
+<p>This method is used to initialize a webdriver instance to automate browser based tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>FileNotFoundError</strong> – If the geckodriver is not in CWD.
+    You can use pybotlib.utils.get_geckodriver() to download and place it in the CWD.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.log">
+<code class="descname">log</code><span class="sig-paren">(</span><em>message</em>, <em>tag='transaction'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs a message to the currently active log file.</p>
+<p>Used to log messages to the currently active log file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) – Message to be logged.</p></li>
+<li><p><strong>tag</strong> (<em>str</em><em>, </em><em>optional</em>) – Tag associated to message. Defaults to “transactional”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.log_bot_completion">
+<code class="descname">log_bot_completion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.log_bot_completion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.log_bot_completion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log completion of RPA.</p>
+<p>Logs that the RPA has successfully completed. To be used at the very end of the RPA.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.quit_driver">
+<code class="descname">quit_driver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.quit_driver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.quit_driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quits out of the web driver.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.set_DataFrame">
+<code class="descname">set_DataFrame</code><span class="sig-paren">(</span><em>df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.set_DataFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.set_DataFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter for a pandas.DataFrame.
+:param df: Embed a dataframe within the RPA after instantiation
+:type df: pandas.DataFrame</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybotlib.VirtualAgent.use_javascript">
+<code class="descname">use_javascript</code><span class="sig-paren">(</span><em>script</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#VirtualAgent.use_javascript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.VirtualAgent.use_javascript" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes javascript code into the current running webpage.
+:raises Exception: If no driver is initialized.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.generate_js">
+<code class="descclassname">pybotlib.</code><code class="descname">generate_js</code><span class="sig-paren">(</span><em>tag</em>, <em>atr</em>, <em>evalString</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib.html#generate_js"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.generate_js" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates js string for web element searching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> (<em>str</em>) – HTML tag to search for.</p></li>
+<li><p><strong>atr</strong> (<em>str</em>) – HTML attribute for which to evaluate when searching the DOM.</p></li>
+<li><p><strong>evalString</strong> (<em>str</em>) – Used to determine if attribute of HTML is element is equal to this string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Javascript code to loop through HTML elements and find a subset satisfying a specific evaluated condition.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybotlib.utils">
+<span id="pybotlib-utils"></span><h1>pybotlib.utils<a class="headerlink" href="#module-pybotlib.utils" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pybotlib.utils.create_minio_bucket">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">create_minio_bucket</code><span class="sig-paren">(</span><em>host_uri</em>, <em>minio_access_key</em>, <em>minio_secret_key</em>, <em>bucket_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#create_minio_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.create_minio_bucket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a minio bucket.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.dt_parse">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">dt_parse</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#dt_parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.dt_parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses out datetime from email msg format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> (<em>str</em>) – t is a string containing an RFC 2822 date, such as “Mon, 20 Nov 1995 19:12:08 -0500”.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A datetime.datetime object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>datetime.datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.get_geckodriver">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">get_geckodriver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#get_geckodriver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.get_geckodriver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches latest version of geckodriver to automate firefox via the Selenium webdriver.</p>
+<p>This function uses GNU wget. Make sure it is installed on the system before calling get_geckodriver()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.pandas_read_google_sheets">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">pandas_read_google_sheets</code><span class="sig-paren">(</span><em>sheet_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#pandas_read_google_sheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.pandas_read_google_sheets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a pandas DataFrame from a spreadsheet in google sheets.
+Make sure the spreadsheet has a “view” link and only contains one tab of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sheet_id</strong> (<em>str</em>) – Individual googlesheet ID extracted from URL with view access.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dataframe with the data from the googlesheets.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.return_emails_from_IMAP">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">return_emails_from_IMAP</code><span class="sig-paren">(</span><em>email_account</em>, <em>password</em>, <em>email_folder</em>, <em>search_term='ALL'</em>, <em>url='imap.gmail.com'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#return_emails_from_IMAP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.return_emails_from_IMAP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of mailparser.MailParser objects from an email address using IMAP.</p>
+<p>Used to search a specific IMAP email folder and return a list of individual mailparser.MailParser objects.
+Will return no values if the login, folder, or search fails. You can replace search_term with other fields such as “UnSeen” or “Seen”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email_account</strong> (<em>str</em>) – Email address to read inbox from in string format.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password for associated email_account.</p></li>
+<li><p><strong>email_folder</strong> (<em>str</em>) – Which IMAP folder to return emails from.</p></li>
+<li><p><strong>search_term</strong> (<em>str</em>) – Term that is used to search in email folder. Defaults to all.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – IMAP server url. Defaults to imap.gmail.com for use with google gmail accounts.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of mailparser.MailParser objects retrieved from the email server.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.save_csv_from_googlesheets">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">save_csv_from_googlesheets</code><span class="sig-paren">(</span><em>service_file</em>, <em>sheet_url</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#save_csv_from_googlesheets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.save_csv_from_googlesheets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a google sheets table to .csv with name filename.</p>
+<p>Needs JSON credentials file location, full google sheets URL and filename to be saved.
+Google Sheet must be shared with view access to service account listed in JSON credentials file under ‘client_email’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service_file</strong> (<em>str</em>) – Path to the google credentials json service file.</p></li>
+<li><p><strong>sheet_url</strong> (<em>str</em>) – URL of the googlesheet to be downloaded.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Name of the csv file to be saved without the ‘.csv’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True. The csv was saved.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – If the function does not return True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.save_emails_to_CWD">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">save_emails_to_CWD</code><span class="sig-paren">(</span><em>list_of_mails</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#save_emails_to_CWD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.save_emails_to_CWD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a list of mailparser.MailParser objects to CWD.</p>
+<p>Takes as input a list of mailparser.MailParser objects and saves the emails to current working directory under a folder called pybotlib_emails.
+Headers and body are saved as individual txt files inside a folder named after the subject and date recieved.
+Attachments are also saved into said folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_mails</strong> (<em>list</em>) – A list of mailparser.MailParser objects.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.send_HTML_email_with_attachement">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">send_HTML_email_with_attachement</code><span class="sig-paren">(</span><em>subject</em>, <em>body</em>, <em>sender_email</em>, <em>receiver_email</em>, <em>password</em>, <em>filename</em>, <em>watermark='pybotlib RPA'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#send_HTML_email_with_attachement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.send_HTML_email_with_attachement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends an visually pleasing HTML email with one attachment from a gmail account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subject</strong> (<em>str</em>) – Subject of the email.</p></li>
+<li><p><strong>body</strong> (<em>str</em>) – Body of the email.</p></li>
+<li><p><strong>sender_email</strong> (<em>str</em>) – From field in the email.</p></li>
+<li><p><strong>reciever_email</strong> (<em>str</em>) – The recipient emaill address.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password of senders email.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Absoloute path of file to send in email or the file name if the file is in CWD.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.send_email_with_attachement">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">send_email_with_attachement</code><span class="sig-paren">(</span><em>subject</em>, <em>body</em>, <em>sender_email</em>, <em>receiver_email</em>, <em>password</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#send_email_with_attachement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.send_email_with_attachement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a simple with one attachment from a gmail account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subject</strong> (<em>str</em>) – Subject of the email.</p></li>
+<li><p><strong>body</strong> (<em>str</em>) – Body of the email.</p></li>
+<li><p><strong>sender_email</strong> (<em>str</em>) – From field in the email.</p></li>
+<li><p><strong>reciever_email</strong> (<em>str</em>) – The recipient emaill address.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password of senders email.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Absoloute path of file to send in email or the file name if the file is in CWD.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybotlib.utils.write_file_to_minio_bucket">
+<code class="descclassname">pybotlib.utils.</code><code class="descname">write_file_to_minio_bucket</code><span class="sig-paren">(</span><em>host_uri</em>, <em>minio_access_key</em>, <em>minio_secret_key</em>, <em>bucket_name</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pybotlib/utils.html#write_file_to_minio_bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.utils.write_file_to_minio_bucket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a file to a minio bucket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host_uri</strong> (<em>str</em>) – URI to minio instance.</p></li>
+<li><p><strong>minio_access_key</strong> (<em>str</em>) – Access key.</p></li>
+<li><p><strong>minio_secret_key</strong> (<em>str</em>) – Secret key.</p></li>
+<li><p><strong>bucket_name</strong> (<em>str</em>) – Bucket name to save.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – Name of file to save to bucket. Must be in CWD.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – If bucket does not exist or the file is not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybotlib.exceptions">
+<span id="pybotlib-exceptions"></span><h1>pybotlib.exceptions<a class="headerlink" href="#module-pybotlib.exceptions" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="pybotlib.exceptions.Error">
+<em class="property">exception </em><code class="descclassname">pybotlib.exceptions.</code><code class="descname">Error</code><a class="reference internal" href="_modules/pybotlib/exceptions.html#Error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.exceptions.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for other exceptions</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pybotlib.exceptions.NoElementsSatisfyConditions">
+<em class="property">exception </em><code class="descclassname">pybotlib.exceptions.</code><code class="descname">NoElementsSatisfyConditions</code><a class="reference internal" href="_modules/pybotlib/exceptions.html#NoElementsSatisfyConditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybotlib.exceptions.NoElementsSatisfyConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when find_by_tag_and_attr results in an empty list</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, David Katz
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
