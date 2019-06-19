@@ -202,8 +202,8 @@ if __name__ == "__main__":
 
     )
 
-    print("ACCESSED ENVIORNMENT VARIABLES")
-    for var in env_vars:
-        print(var)
+    print("Enviornment variables have been loaded correctly")
+    # for var in env_vars:
+        # print(var)
 
     run_robot()
