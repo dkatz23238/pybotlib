@@ -126,7 +126,7 @@ def return_emails_from_IMAP(email_account, password, email_folder, search_term="
             print("ERROR getting message", num)
             #return
 
-        msg = email.message_from_string(data[0][1])
+        msg = email.message_from_string(data[0][1].decode('utf-8'))
         parsed_msg = mailparser.parse_from_string(msg.as_string())
         response.append(parsed_msg)
     M.logout()
