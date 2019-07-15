@@ -1,4 +1,4 @@
-<img src="/img/pybotlib.pn" alt="pybotlib-image" width="200"/>
+<img src="/img/pybotlib.png" alt="pybotlib-image" width="200"/>
 
 
 # What is ```pybotlib```?
