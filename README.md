@@ -1,6 +1,7 @@
 <p align="center">
 <img src="/img/pybotlib.png" alt="pybotlib-image" width="400" style="display: block;margin-left: auto;margin-right: auto;"/>
 </p>
+
 # What is pybotlib?
 ```pybotlib``` is a high level library for creating business oriented Robotic Process Automations using Python.
 
